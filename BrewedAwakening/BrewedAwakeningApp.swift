@@ -6,13 +6,18 @@
 //
 
 import SwiftUI
+import FirebaseCore
+import FirebaseDatabase
 
 @main
-struct BrewedAwakeningApp: App {
+struct MyApp: App {
+    init(){
+        FirebaseApp.configure()
+        print("firebase is configured")
+    }
     var body: some Scene {
         WindowGroup {
             ContentView()
-//            sup
         }
     }
 }
