@@ -1,5 +1,5 @@
 import SwiftUI
-import FirebaseCore
+//import FirebaseCore
 struct ContentView: View {
     @State var scannedCode = ""
     @State var showScanSheet = false

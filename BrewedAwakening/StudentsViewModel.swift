@@ -8,15 +8,15 @@
 import Foundation
 
 
-
-class StudentsViewModel: ObservableObject{
-    @Published var students: [Students] = []
-    
-    init() {
-        getData()
-    }
-               
-    func getData(){
-        
-    }
-}
+//
+//class StudentsViewModel: ObservableObject{
+//    @Published var students: [Students] = []
+//    
+//    init() {
+//        getData()
+//    }
+//               
+//    func getData(){
+//        
+//    }
+//}
