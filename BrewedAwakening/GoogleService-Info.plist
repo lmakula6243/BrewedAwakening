@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCuFH5solkR0Em4xj2-iSVFLkOMrQAOvYA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>734677420702</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.jhhs.6243.BrewedAwakeningReal</string>
+	<key>PROJECT_ID</key>
+	<string>brewedawakening-d7920</string>
+	<key>STORAGE_BUCKET</key>
+	<string>brewedawakening-d7920.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:734677420702:ios:a94c5cb702e2d836a2c98f</string>
+	<key>DATABASE_URL</key>
+	<string>https://brewedawakening-d7920-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
