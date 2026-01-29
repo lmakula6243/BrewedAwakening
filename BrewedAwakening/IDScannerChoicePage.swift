@@ -9,10 +9,11 @@ struct IDScannerChoicePage: View {
         
         HStack{
             Button(action: {
-                showIDSheet.toggle()
+                showScanSheet.toggle()
             }, label: {
+                
                 Text("Scanning Button: image of barcode")
-                Image("ScannerIcon")
+                Image("Scanner")
                         })
                     }
         .sheet(isPresented: $showScanSheet){
@@ -31,13 +32,13 @@ struct IDScannerChoicePage: View {
             }
         }
             Button(action: {
-                showScanSheet.toggle()
+                showIDSheet.toggle()
             }, label: {
                 Text("ID Button: image of numberPAD")
                 Image("KeypadIcon")
                         })
                     
-        .sheet(isPresented: $showScanSheet){
+        .sheet(isPresented: $showIDSheet){
             Text("Scan Student ID")
                 .font(.title)
             
