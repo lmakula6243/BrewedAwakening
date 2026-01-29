@@ -8,12 +8,28 @@
 import SwiftUI
 
 struct GroupPage: View {
-   
+    @State var showAddGroupSheet = false
+    @State var enteredNewGroup: String = ""
     var body: some View {
         Text("Welcome")
+            .font(.largeTitle)
         Text("Start a working session...")
         
-        
+        Button(action: {
+            showAddGroupSheet.toggle()
+        }, label: {
+            Text("Don't see your group?")
+        })
+        .sheet(isPresented: $showAddGroupSheet) {
+            Text("Name Of Your Group")
+            TextField("Enter Group Name Here", text: $enteredNewGroup)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+            Button(action: {
+                showAddGroupSheet.toggle()
+            }, label: {
+                Text("Done")
+            })
         }
     }
+}
     
