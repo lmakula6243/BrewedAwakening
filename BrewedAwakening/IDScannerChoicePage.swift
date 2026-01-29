@@ -1,6 +1,6 @@
 import SwiftUI
 //import FirebaseCore
-struct ContentView: View {
+struct IDScannerChoicePage: View {
     @State var scannedCode = ""
     @State var showScanSheet = false
     @State var typedID = ""
@@ -9,7 +9,7 @@ struct ContentView: View {
         
         HStack{
             Button(action: {
-                
+                showIDSheet.toggle()
             }, label: {
                 Text("Scanning Button: image of barcode")
                 Image("ScannerIcon")
@@ -29,13 +29,14 @@ struct ContentView: View {
                         showScanSheet = false
                     }
             }
+        }
             Button(action: {
-                
+                showScanSheet.toggle()
             }, label: {
                 Text("ID Button: image of numberPAD")
                 Image("KeypadIcon")
                         })
-                    }
+                    
         .sheet(isPresented: $showScanSheet){
             Text("Scan Student ID")
                 .font(.title)
