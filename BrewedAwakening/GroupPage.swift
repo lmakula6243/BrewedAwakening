@@ -10,7 +10,10 @@ import SwiftUI
 struct GroupPage: View {
    
     var body: some View {
+        Text("Welcome")
+        Text("Start a working session...")
         
-            }
+        
+        }
     }
     
