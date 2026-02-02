@@ -8,6 +8,6 @@ import SwiftUI
 
 struct Group: Identifiable {
     let id = UUID()
-    var name: String
+    var groupName: String
     var students: [Student] = []
 }
