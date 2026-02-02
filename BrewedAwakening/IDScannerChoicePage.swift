@@ -6,9 +6,18 @@ struct IDScannerChoicePage: View {
     @State var showScanSheet = false
     @State var typedID = ""
     @State var showIDSheet = false
+    @StateObject var myViewModel: StudentsViewModel = StudentsViewModel()
+
     var body: some View {
         
         VStack {
+            List {
+                ForEach(myViewModel.students) { student in
+                    Text(student.firstname)
+                }
+            }
+
+            
             NavigationStack{
                 NavigationLink {
                     IDPage()
