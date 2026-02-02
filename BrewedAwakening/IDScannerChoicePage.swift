@@ -12,9 +12,10 @@ struct IDScannerChoicePage: View {
                 NavigationLink {
                     IDPage()
                 } label: {
-                    Image("Unknown 2 ")
+                    Image("scannerImage")
                         .resizable()
-                        .frame(width: 60, height: 60)
+                        .frame(width: 60, height: 40)
+                        .background(Color.red)
                 }
 
             }
