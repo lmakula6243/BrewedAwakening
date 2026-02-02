@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct GroupPage: View {
+struct GroupView: View {
     @State var showAddGroupSheet = false
     @State var enteredNewGroup: String = ""
     var body: some View {
