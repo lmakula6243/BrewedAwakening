@@ -11,6 +11,8 @@ import FirebaseDatabase
 
 @main
 struct MyApp: App {
+    @State var groupName: String = ""
+        @State var groups: [Group] = []
     init(){
         FirebaseApp.configure()
         print("firebase is configured")
@@ -18,6 +20,7 @@ struct MyApp: App {
     var body: some Scene {
         WindowGroup {
             IDScannerChoicePage()
+//            GroupView(groupName: $groupName, groups: $groups)
         }
     }
 }
