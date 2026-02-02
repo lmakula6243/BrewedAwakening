@@ -6,30 +6,22 @@ struct IDScannerChoicePage: View {
     @State var showScanSheet = false
     @State var typedID = ""
     @State var showIDSheet = false
+    @StateObject var myViewModel: StudentsViewModel = StudentsViewModel()
+
     var body: some View {
         
-//        VStack {
-//            NavigationStack{
-//                NavigationLink {
-//                    IDPage()
-//                } label: {
-//                    Image("scannerImage")
-//                        .resizable()
-//                        .frame(width: 60, height: 40)
-//                        .background(Color.red)
-//                }
-//
-//            }
-//        }
-        
-        
-        
-        HStack{
-            Button(action: {
-                showScanSheet.toggle()
-            }, label: {
-                VStack {
-                    Text("Scanning Button: ")
+        VStack {
+            List {
+                ForEach(myViewModel.students) { student in
+                    Text(student.firstname)
+                }
+            }
+
+            
+            NavigationStack{
+                NavigationLink {
+                    IDPage()
+                } label: {
                     Image("scannerImage")
                         .resizable()
                         .scaledToFit()
