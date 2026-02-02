@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.jhhs.6243.BrewedAwakeningReal</string>
+	<string>org.jhhs.6243.BrewedAwakeningTest</string>
 	<key>PROJECT_ID</key>
 	<string>brewedawakening-d7920</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,7 +25,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:734677420702:ios:a94c5cb702e2d836a2c98f</string>
+	<string>1:734677420702:ios:0e575f21e34af0f9a2c98f</string>
 	<key>DATABASE_URL</key>
 	<string>https://brewedawakening-d7920-default-rtdb.firebaseio.com</string>
 </dict>

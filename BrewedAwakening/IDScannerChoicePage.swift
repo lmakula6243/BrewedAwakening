@@ -1,4 +1,5 @@
 import SwiftUI
+import FirebaseDatabase
 import FirebaseCore
 struct IDScannerChoicePage: View {
     @State var scannedCode = ""
