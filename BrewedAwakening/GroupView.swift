@@ -7,13 +7,16 @@
 
 import SwiftUI
 
-struct GroupPage: View {
+struct GroupView: View {
     @State var showAddGroupSheet = false
     @State var enteredNewGroup: String = ""
+    @Binding var groupName: String
+    @Binding var groups: [Group]
     var body: some View {
         Text("Welcome")
             .font(.largeTitle)
         Text("Start a working session...")
+        
         
         Button(action: {
             showAddGroupSheet.toggle()
@@ -26,6 +29,9 @@ struct GroupPage: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             Button(action: {
                 showAddGroupSheet.toggle()
+                groupName = enteredNewGroup
+                enteredNewGroup = ""
+                groups.append(Group(groupName: groupName))
             }, label: {
                 Text("Done")
             })
