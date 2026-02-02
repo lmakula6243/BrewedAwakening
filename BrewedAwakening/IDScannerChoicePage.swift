@@ -13,7 +13,12 @@ struct IDScannerChoicePage: View {
         VStack {
             List {
                 ForEach(myViewModel.students) { student in
-                    Text(student.firstname)
+                    HStack{
+                        Text(student.firstname)
+                        Text(student.lastname)
+                       // Text(student.id)
+                       // Text(student.scannerId)
+                    }
                 }
             }
         }
