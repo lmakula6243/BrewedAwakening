@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct Student{
+struct Student: Identifiable{
     var firstname: String
-    var lastname: String
-    var ScannerId: String
     var id: String
+    var lastname: String
+    var scannerId: String
+    
 }

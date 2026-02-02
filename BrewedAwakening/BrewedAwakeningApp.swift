@@ -12,7 +12,7 @@ import FirebaseDatabase
 @main
 struct MyApp: App {
     init(){
-//        FirebaseApp.configure()
+        FirebaseApp.configure()
         print("firebase is configured")
     }
     var body: some Scene {

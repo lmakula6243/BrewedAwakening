@@ -11,7 +11,6 @@ import FirebaseDatabase
 import Combine
 
 class StudentsViewModel: ObservableObject{
-    
     @Published var students: [Student] = []
     
     init() {
@@ -36,9 +35,10 @@ class StudentsViewModel: ObservableObject{
                     tempArray.append(
                         Student(
                             firstname: firstName,
+                            id: snap.key,
                             lastname: lastName,
-                            ScannerId: scannerId,
-                            id: snap.key
+                            scannerId: scannerId
+                            
                             
                            
                         )
