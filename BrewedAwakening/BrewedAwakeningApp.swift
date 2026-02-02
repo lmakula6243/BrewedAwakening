@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-//import FirebaseCore
-//import FirebaseDatabase
+import FirebaseCore
+import FirebaseDatabase
 
 @main
 struct MyApp: App {

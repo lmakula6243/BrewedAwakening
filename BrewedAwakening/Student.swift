@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Students{
+struct Student{
     var firstname: String
     var lastname: String
     var ScannerId: String
