@@ -18,8 +18,8 @@ struct IDScannerChoicePage: View {
                         Text(student.firstname)
                         Text(student.lastname)
                         Text(student.skey)
-                        Text(student.scannerId)
-                        Text(student.id)
+                        Text("Scanner ID: \(String(student.scannerId))")
+                        Text("Student ID: \(String(student.id))")
                     }
                 }
             }
