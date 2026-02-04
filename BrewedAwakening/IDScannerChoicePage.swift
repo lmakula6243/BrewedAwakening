@@ -34,18 +34,20 @@ struct IDScannerChoicePage: View {
             })
             .buttonStyle(.borderedProminent)
             .sheet(isPresented: $showScanSheet){
-                HStack{
+                VStack{
                     Text("Scan Student ID")
-                        .font(.title)
+                        .font(.largeTitle)
                     
                     TextField("Waiting for scan…", text: $scannedCode)
                         .textFieldStyle(.roundedBorder)
+                        .frame(width: 400, height: 50)
                     
                         .onSubmit {
                             processScan(scannedCode)
                             scannedCode = ""
                             showScanSheet = false
                         }
+                    Image("scannerImage")
                 }
             }
             Button(action: {
@@ -58,16 +60,20 @@ struct IDScannerChoicePage: View {
             })
             .buttonStyle(.borderedProminent)
             .sheet(isPresented: $showIDSheet){
-                Text("Scan Student ID")
-                    .font(.title)
-                
-                TextField("Type Student ID here…", text: $typedID)
-                    .textFieldStyle(.roundedBorder)
-                
-                    .onSubmit {
-                        processID(typedID)
-                        typedID = ""
-                    }
+                VStack{
+                    Text("Type Student ID")
+                        .font(.largeTitle)
+                    
+                    TextField("Type Student ID here…", text: $typedID)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(width: 400, height: 50)
+                    
+                        .onSubmit {
+                            processID(typedID)
+                            typedID = ""
+                        }
+                    Image("keyPad")
+                }
             }
         }
     }
