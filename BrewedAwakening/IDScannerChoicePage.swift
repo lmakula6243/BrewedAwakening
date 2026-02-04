@@ -7,6 +7,7 @@ struct IDScannerChoicePage: View {
     @State var typedID = ""
     @State var showIDSheet = false
     @StateObject var myViewModel: StudentsViewModel = StudentsViewModel()
+    @State var nameOfGroup: String = ""
 
     var body: some View {
         
@@ -23,51 +24,74 @@ struct IDScannerChoicePage: View {
                 }
             }
         }
-        HStack {
-            Button(action: {
-                showScanSheet.toggle()
-            }, label: {
-                VStack {
-                    Text("Scan Button:" )
-                    Image("Scanner")
+        VStack {
+            Text("\(nameOfGroup)'s group is signing in")
+                .font(.custom("Hiragino Kaku Gothic StdN", size: 50))
+                .padding()
+            HStack {
+                Button(action: {
+                    showScanSheet.toggle()
+                }, label: {
+                    VStack {
+                        Text("Scan Button:" )
+                            .foregroundStyle(.black)
+                            .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
+                            .padding()
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 90)
+                                .frame(width: 350, height: 300)
+                                .foregroundStyle(Color.orange)
+                            Image("Scanner")
+                                .resizable()
+                                .frame(width: 280, height: 280)
+                            
+                        }
+                    }
+                })
+                .sheet(isPresented: $showScanSheet){
+                    HStack{
+                        Text("Scan Student ID")
+                            .foregroundStyle(Color.black)
+                            .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
+                            .padding()
+                        
+                        TextField("Waiting for scan…", text: $scannedCode)
+                            .textFieldStyle(.roundedBorder)
+                        
+                            .onSubmit {
+                                processScan(scannedCode)
+                                scannedCode = ""
+                                showScanSheet = false
+                            }
+                    }
                 }
-            })
-            .buttonStyle(.borderedProminent)
-            .sheet(isPresented: $showScanSheet){
-                HStack{
+                Button(action: {
+                    showIDSheet.toggle()
+                }, label: {
+                    VStack {
+                        Text("ID Button:")
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 90)
+                                .frame(width: 350, height: 300)
+                                .foregroundStyle(Color.brown)
+                            Image("Keypad")
+                                .resizable()
+                                .frame(width: 300, height: 300)
+                        }
+                    }
+                })
+                .sheet(isPresented: $showIDSheet){
                     Text("Scan Student ID")
                         .font(.title)
                     
-                    TextField("Waiting for scan…", text: $scannedCode)
+                    TextField("Type Student ID here…", text: $typedID)
                         .textFieldStyle(.roundedBorder)
                     
                         .onSubmit {
-                            processScan(scannedCode)
-                            scannedCode = ""
-                            showScanSheet = false
+                            processID(typedID)
+                            typedID = ""
                         }
                 }
-            }
-            Button(action: {
-                showIDSheet.toggle()
-            }, label: {
-                VStack {
-                    Text("ID Button:")
-                    Image("Keypad")
-                }
-            })
-            .buttonStyle(.borderedProminent)
-            .sheet(isPresented: $showIDSheet){
-                Text("Scan Student ID")
-                    .font(.title)
-                
-                TextField("Type Student ID here…", text: $typedID)
-                    .textFieldStyle(.roundedBorder)
-                
-                    .onSubmit {
-                        processID(typedID)
-                        typedID = ""
-                    }
             }
         }
     }
