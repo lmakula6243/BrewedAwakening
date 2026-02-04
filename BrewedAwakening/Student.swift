@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct Student: Identifiable{
+    var skey: String
     var firstname: String
     var id: String
     var lastname: String

@@ -16,8 +16,9 @@ struct IDScannerChoicePage: View {
                     HStack{
                         Text(student.firstname)
                         Text(student.lastname)
-                       // Text(student.id)
-                       // Text(student.scannerId)
+                        Text(student.skey)
+                        Text(student.scannerId)
+                        Text(student.id)
                     }
                 }
             }
