@@ -10,8 +10,8 @@ import SwiftUI
 struct Student: Identifiable{
     var skey: String
     var firstname: String
-    var id: String
+    var id: Int
     var lastname: String
-    var scannerId: String
+    var scannerId: Int
     
 }

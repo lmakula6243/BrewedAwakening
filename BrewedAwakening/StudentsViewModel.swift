@@ -30,15 +30,14 @@ class StudentsViewModel: ObservableObject{
 
                     let firstName = dict["firstName"] as? String ?? ""
                     let lastName = dict["lastName"] as? String ?? ""
-                    let scannerId = dict["scannerId"] as? String ?? ""
-                   // print(scannerId)
-                    let id = dict["id"] as? String ?? ""
+                    let scannerId = dict["scannerId"] as? Int ?? 0
+                    let id = dict["id"] as? Int ?? 0
 
                     tempArray.append(
                         Student(
-                            skey: id,
+                            skey: snap.key,
                             firstname: firstName,
-                            id: snap.key,
+                            id: id,
                             lastname: lastName,
                             scannerId: scannerId
                             
