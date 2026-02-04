@@ -28,8 +28,7 @@ struct IDScannerChoicePage: View {
             }, label: {
                 VStack {
                     Text("Scan Button:" )
-                    Image("scannerImage")
-                    
+                    Image("Scanner")
                 }
             })
             .buttonStyle(.borderedProminent)
@@ -53,7 +52,7 @@ struct IDScannerChoicePage: View {
             }, label: {
                 VStack {
                     Text("ID Button:")
-                    Image("keyPad")
+                    Image("Keypad")
                 }
             })
             .buttonStyle(.borderedProminent)
