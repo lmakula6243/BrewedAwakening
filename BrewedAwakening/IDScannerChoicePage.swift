@@ -81,16 +81,17 @@ struct IDScannerChoicePage: View {
                     }
                 })
                 .sheet(isPresented: $showIDSheet){
-                    Text("Scan Student ID")
-                        .font(.title)
+                    Text("Type Student ID")
+                        .font(.largeTitle)
                     
                     TextField("Type Student ID here…", text: $typedID)
                         .textFieldStyle(.roundedBorder)
-                    
+                        .frame(width: 400, height: 50)
                         .onSubmit {
                             processID(typedID)
                             typedID = ""
                         }
+                    Image("Keypad")
                 }
             }
         }
