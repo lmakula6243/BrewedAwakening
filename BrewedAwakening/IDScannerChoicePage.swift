@@ -12,6 +12,7 @@ struct IDScannerChoicePage: View {
     var body: some View {
         
         VStack {
+            
             List {
                 ForEach(myViewModel.students) { student in
                     HStack{
