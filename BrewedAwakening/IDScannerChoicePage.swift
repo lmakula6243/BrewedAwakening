@@ -8,7 +8,7 @@ struct IDScannerChoicePage: View {
     @State var showIDSheet = false
     @StateObject var myViewModel: StudentsViewModel = StudentsViewModel()
     @State var nameOfGroup: String = ""
-
+    @Binding var group: Group
     var body: some View {
         
         VStack {
