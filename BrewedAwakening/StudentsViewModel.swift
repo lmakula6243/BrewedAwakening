@@ -13,55 +13,41 @@ import Combine
 class StudentsViewModel: ObservableObject{
     @Published var students: [Student] = []
     
-    init() {
-        getData()
-    }
-
-    func getData() {
+    
+    func getData(
+        byField field: String,
+        value: Int
+    ) {
         let ref = Database.database().reference()
         
-        ref.child("students").observe(
-            .value,
-            with: { snapshot in
-                var tempArray: [Student] = []
-
-                for case let snap as DataSnapshot in snapshot.children {
-                    guard let dict = snap.value as? [String: Any] else { continue }
-
-                    let firstName = dict["firstName"] as? String ?? ""
-                    let lastName = dict["lastName"] as? String ?? ""
-                    let scannerId = dict["scannerId"] as? Int ?? 0
-                    let id = dict["id"] as? Int ?? 0
-
-                    tempArray.append(
-                        Student(
-                            skey: snap.key,
-                            firstname: firstName,
-                            id: id,
-                            lastname: lastName,
-                            scannerId: scannerId
-                            
-                            
-                           
-                        )
-                    )
+        ref.child("students")
+            .queryOrdered(byChild: field)
+            .queryEqual(toValue: value)
+            .observeSingleEvent(of: .value) { snapshot in
+                
+                guard let result = snapshot.value as? [String: Any],
+                      let (key, dict) = result.first,
+                      let data = dict as? [String: Any]
+                else {
+                    print("Student not found")
+                    return
                 }
-
+                
+                let student = Student(
+                    skey: key,
+                    firstname: data["firstName"] as? String ?? "",
+                    id: data["id"] as? Int ?? 0,
+                    lastname: data["lastName"] as? String ?? "",
+                    scannerId: data["scannerId"] as? Int ?? 0
+                )
+                
                 DispatchQueue.main.async {
-                    self.students = tempArray
+                    self.students = [student]
                 }
-            },
-            withCancel: { error in
-                print("Firebase error:", error.localizedDescription)
             }
-        )
-
-        }
     }
+}
 
 
 
 
-
-    
-    
