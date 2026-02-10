@@ -17,6 +17,9 @@ struct IDScannerChoicePage: View {
                 .padding()
             VStack {
                 List {
+                    
+                    
+                    
                     ForEach(myViewModel.students) { student in
                         HStack{
                             Text(student.firstname)
@@ -31,6 +34,7 @@ struct IDScannerChoicePage: View {
             HStack {
                 Button(action: {
                     showScanSheet.toggle()
+                    
                 }, label: {
                     VStack {
                         Text("Scan Button:" )
