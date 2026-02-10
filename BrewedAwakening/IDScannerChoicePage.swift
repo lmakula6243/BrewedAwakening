@@ -52,9 +52,6 @@ struct IDScannerChoicePage: View {
                 .sheet(isPresented: $showScanSheet){
                     HStack{
                         Text("Scan Student ID")
-                            .foregroundStyle(Color.black)
-                            .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
-                            .padding()
                         
                         TextField("Waiting for scan…", text: $scannedCode)
                             .textFieldStyle(.roundedBorder)
@@ -71,6 +68,9 @@ struct IDScannerChoicePage: View {
                 }, label: {
                     VStack {
                         Text("ID Button:")
+                            .foregroundStyle(Color.black)
+                            .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
+                            .padding()
                         ZStack {
                             RoundedRectangle(cornerRadius: 90)
                                 .frame(width: 350, height: 300)
