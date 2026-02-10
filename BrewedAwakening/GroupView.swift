@@ -17,10 +17,6 @@ struct GroupView: View {
             Text("Welcome")
                 .font(.largeTitle)
             Text("Start a working session...")
-            //            List {
-            //                ForEach($groups) { $group in
-            //                    Text($group.groupName)
-            //                }
             List {
                 ForEach($groups) { $group in
                     NavigationLink {

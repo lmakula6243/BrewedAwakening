@@ -22,7 +22,7 @@ struct MyApp: App {
             VStack {
                 HeaderPage()
                 GroupView(groupName: $groupName, groups: $groups)
-//                /*IDScannerChoicePage(group*/)
+
             }
         }
     }
