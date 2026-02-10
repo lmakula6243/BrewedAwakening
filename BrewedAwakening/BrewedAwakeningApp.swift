@@ -21,8 +21,8 @@ struct MyApp: App {
         WindowGroup {
             VStack {
                 HeaderPage()
-                IDScannerChoicePage()
-                //            GroupView(groupName: $groupName, groups: $groups)
+                GroupView(groupName: $groupName, groups: $groups)
+
             }
         }
     }

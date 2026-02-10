@@ -9,13 +9,21 @@ import FirebaseCore
 
 struct HeaderPage: View {
     var body: some View {
-        VStack {
+        HStack {
+            NavigationLink {
+                
+            } label: {
+                Image(systemName: "home")
+            }
+
             Text("Brewed Awakening")
-                .font(.largeTitle)
+                .font(.custom("Hiragino Kaku Gothic StdN", size: 50))
                 .bold()
                 .padding()
                 .alignmentGuide(VerticalAlignment.center) { _ in
                     0.5
                 }
+            Divider()
         }}
+   
 }
