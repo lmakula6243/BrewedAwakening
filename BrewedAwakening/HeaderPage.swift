@@ -9,21 +9,32 @@ import FirebaseCore
 
 struct HeaderPage: View {
     var body: some View {
-        HStack {
-            NavigationLink {
-                
-            } label: {
-                Image(systemName: "home")
-            }
-
-            Text("Brewed Awakening")
-                .font(.custom("Hiragino Kaku Gothic StdN", size: 50))
-                .bold()
-                .padding()
-                .alignmentGuide(VerticalAlignment.center) { _ in
-                    0.5
+        VStack {
+            HStack {
+                NavigationLink {
+                    HomePage()
+                } label: {
+                    Image(systemName: "house.fill")
+                        .resizable()
+                        .frame(width: 50, height: 50)
+                    
                 }
+                Spacer()
+                
+            }
+            .padding(.horizontal)
+            .frame(maxWidth: .infinity)
+            .overlay {
+                Text("Brewed Awakening")
+                    .font(.custom("Hiragino Kaku Gothic StdN", size: 50))
+                    .bold()
+                    .padding()
+            }
+            
             Divider()
-        }}
-   
+                .padding()
+            
+        }
+    }
+    
 }
