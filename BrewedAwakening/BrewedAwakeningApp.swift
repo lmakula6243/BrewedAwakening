@@ -19,8 +19,11 @@ struct MyApp: App {
     }
     var body: some Scene {
         WindowGroup {
-            IDScannerChoicePage()
-//            GroupView(groupName: $groupName, groups: $groups)
+            VStack {
+                HeaderPage()
+                IDScannerChoicePage()
+                //            GroupView(groupName: $groupName, groups: $groups)
+            }
         }
     }
 }
