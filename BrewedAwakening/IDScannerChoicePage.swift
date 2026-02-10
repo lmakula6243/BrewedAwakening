@@ -13,7 +13,7 @@ struct IDScannerChoicePage: View {
         
         VStack {
             Text("\(nameOfGroup)'s group is signing in")
-                .font(.custom("Hiragino Kaku Gothic StdN", size: 50))
+                .font(.custom("Hiragino Kaku Gothic StdN", size: 35))
                 .padding()
             VStack {
                 List {
