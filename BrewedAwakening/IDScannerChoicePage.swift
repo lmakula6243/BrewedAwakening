@@ -12,6 +12,20 @@ struct IDScannerChoicePage: View {
     var body: some View {
         
         VStack {
+            
+            List {
+                ForEach(myViewModel.students) { student in
+                    HStack{
+                        Text(student.firstname)
+                        Text(student.lastname)
+                        Text(student.skey)
+                        Text("Scanner ID: \(String(student.scannerId))")
+                        Text("Student ID: \(String(student.id))")
+                    }
+                }
+            }
+        }
+        VStack {
             Text("\(nameOfGroup)'s group is signing in")
                 .font(.custom("Hiragino Kaku Gothic StdN", size: 50))
                 .padding()
