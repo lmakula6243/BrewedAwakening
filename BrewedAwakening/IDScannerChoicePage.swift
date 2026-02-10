@@ -3,6 +3,7 @@ import FirebaseDatabase
 import FirebaseCore
 struct IDScannerChoicePage: View {
     @State var scannedCode = ""
+    @State var intScannedCode: Int?
     @State var showScanSheet = false
     @State var typedID = ""
     @State var showIDSheet = false
@@ -56,8 +57,8 @@ struct IDScannerChoicePage: View {
                             .textFieldStyle(.roundedBorder)
                         
                             .onSubmit {
-                                processScan(scannedCode)
-                                scannedCode = ""
+                                processScan()
+//                                scannedCode = ""
                                 showScanSheet = false
                             }
                     }
@@ -96,8 +97,8 @@ struct IDScannerChoicePage: View {
             }
         }
     }
-    func processScan(_ code: String){
-        print("Scanned: \(code)")
+    func processScan(){
+        intScannedCode = Int(scannedCode)
     }
     func processID(_ code: String){
         print("Scanned: \(code)")
