@@ -13,7 +13,7 @@ struct GroupView: View {
     @Binding var groupName: String
     @Binding var groups: [Group]
     var body: some View {
-        NavigationStack{
+
             Text("Welcome")
                 .font(.largeTitle)
             Text("Start a working session...")
@@ -47,4 +47,6 @@ struct GroupView: View {
             }
         }
     }
-}
+
+
+
