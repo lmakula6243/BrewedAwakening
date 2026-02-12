@@ -10,10 +10,11 @@ struct IDScannerChoicePage: View {
     @StateObject var myViewModel: StudentsViewModel = StudentsViewModel()
     @State var nameOfGroup: String = ""
     @Binding var group: Group
+    @Binding var groupName: String
     var body: some View {
         
         VStack {
-            Text("\(nameOfGroup)'s group is signing in")
+            Text("\(groupName)'s group is signing in")
                 .font(.custom("Hiragino Kaku Gothic StdN", size: 35))
                 .padding()
             VStack {

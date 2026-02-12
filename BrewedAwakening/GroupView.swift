@@ -20,7 +20,7 @@ struct GroupView: View {
             List {
                 ForEach($groups) { $group in
                     NavigationLink {
-                        IDScannerChoicePage(group: $group)
+                        IDScannerChoicePage(group: $group, groupName: $groupName)
                     } label: {
                         Text(group.groupName)
                     }
