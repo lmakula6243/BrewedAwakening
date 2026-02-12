@@ -23,7 +23,8 @@ struct MyApp: App {
                 VStack {
                     HeaderPage()
                         .frame(width: 1200, height: 150)
-                    GroupView(groupName: $groupName, groups: $groups)
+                    GroupView(groups: $groups)
+//                    GroupView(groupName: $groupName, groups: $groups)
                     HomePage()
                     
                 }

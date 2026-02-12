@@ -10,7 +10,6 @@ import SwiftUI
 struct GroupView: View {
     @State var showAddGroupSheet = false
     @State var enteredNewGroup: String = ""
-    @Binding var groupName: String
     @Binding var groups: [Group]
     var body: some View {
         NavigationStack{
@@ -20,7 +19,7 @@ struct GroupView: View {
             List {
                 ForEach($groups) { $group in
                     NavigationLink {
-                        IDScannerChoicePage(group: $group, groupName: $groupName)
+                        IDScannerChoicePage(group: $group)
                     } label: {
                         Text(group.groupName)
                     }
@@ -37,9 +36,9 @@ struct GroupView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     Button(action: {
                         showAddGroupSheet.toggle()
-                        groupName = enteredNewGroup
+//                        groupName = enteredNewGroup
+                        groups.append(Group(groupName: enteredNewGroup))
                         enteredNewGroup = ""
-                        groups.append(Group(groupName: groupName))
                     }, label: {
                         Text("Done")
                     })
