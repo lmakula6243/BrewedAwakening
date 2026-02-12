@@ -24,6 +24,8 @@ class StudentsViewModel: ObservableObject{
             .queryOrdered(byChild: field)
             .queryEqual(toValue: value)
             .observeSingleEvent(of: .value) { snapshot in
+                print("FULL SNAPSHOT:")
+                print(snapshot.value as Any)
                 
                 guard let result = snapshot.value as? [String: Any],
                       let (key, dict) = result.first,
