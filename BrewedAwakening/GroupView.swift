@@ -13,9 +13,19 @@ struct GroupView: View {
     @Binding var groups: [Group]
     var body: some View {
         NavigationStack{
-            Text("Welcome")
-                .font(.largeTitle)
+            ZStack{
+                Text("Welcome")
+                    .font(.custom("Hiragino Kaku Gothic StdN", size: 50))
+                    .foregroundStyle(.brown)
+                    
+                Text("Welcome")
+                    .font(.custom("Hiragino Kaku Gothic StdN", size: 50))
+                    .foregroundStyle(.orange)
+                    .offset(x: -5, y: -2)
+            }
             Text("Start a working session...")
+                .font(.custom("Snell Roundhand Bold", size: 30))
+            
             List {
                 ForEach($groups) { $group in
                     NavigationLink {
