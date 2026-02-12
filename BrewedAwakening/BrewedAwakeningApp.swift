@@ -22,8 +22,11 @@ struct MyApp: App {
             NavigationStack {
                 VStack {
                     HeaderPage()
-                        .frame(height: 150)
-                    GroupView(groupName: $groupName, groups: $groups)
+                        .frame(width: 1200, height: 150)
+                    GroupView(groups: $groups)
+//                    GroupView(groupName: $groupName, groups: $groups)
+                    HomePage()
+                    
                 }
             }
             

@@ -10,12 +10,19 @@ import SwiftUI
 struct GroupView: View {
     @State var showAddGroupSheet = false
     @State var enteredNewGroup: String = ""
-    @Binding var groupName: String
     @Binding var groups: [Group]
     var body: some View {
-
-            Text("Welcome")
-                .font(.largeTitle)
+        NavigationStack{
+            ZStack{
+                Text("Welcome")
+                    .font(.custom("Hiragino Kaku Gothic StdN", size: 50))
+                    .foregroundStyle(.brown)
+                    
+                Text("Welcome")
+                    .font(.custom("Hiragino Kaku Gothic StdN", size: 50))
+                    .foregroundStyle(.orange)
+                    .offset(x: -5, y: -2)
+            }
             Text("Start a working session...")
             List {
                 ForEach($groups) { $group in
@@ -37,9 +44,9 @@ struct GroupView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     Button(action: {
                         showAddGroupSheet.toggle()
-                        groupName = enteredNewGroup
+//                        groupName = enteredNewGroup
+                        groups.append(Group(groupName: enteredNewGroup))
                         enteredNewGroup = ""
-                        groups.append(Group(groupName: groupName))
                     }, label: {
                         Text("Done")
                     })
