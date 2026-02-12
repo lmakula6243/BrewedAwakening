@@ -24,6 +24,8 @@ struct GroupView: View {
                     .offset(x: -5, y: -2)
             }
             Text("Start a working session...")
+                .font(.custom("Snell Roundhand Bold", size: 30))
+            
             List {
                 ForEach($groups) { $group in
                     NavigationLink {
