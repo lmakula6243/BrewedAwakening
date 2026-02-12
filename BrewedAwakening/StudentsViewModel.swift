@@ -40,7 +40,8 @@ class StudentsViewModel: ObservableObject{
                     lastname: data["lastName"] as? String ?? "",
                     scannerId: data["scannerId"] as? Int ?? 0
                 )
-                
+                print("Scanned student:", student.firstname, student.lastname)
+
                 DispatchQueue.main.async {
                     self.students = [student]
                 }

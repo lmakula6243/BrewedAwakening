@@ -18,89 +18,105 @@ struct IDScannerChoicePage: View {
                 .padding()
             VStack {
                 List {
-                    ForEach(myViewModel.students) { student in
-                        HStack{
-                            Text(student.firstname)
-                            Text(student.lastname)
-                            Text(student.skey)
-                            Text("Scanner ID: \(String(student.scannerId))")
-                            Text("Student ID: \(String(student.id))")
+                    ForEach($myViewModel.students) { student in
+                        HStack {
+                            Text("\(student.firstname) \(student.lastname)")
+                                .font(.headline)
+                            
+                            Spacer()
+                            
+                            VStack(alignment: .trailing) {
+                                Text("Scanner: \(student.scannerId)")
+                                Text("Student ID: \(student.id)")
+                            }
+                            .font(.caption)
                         }
                     }
                 }
             }
-            HStack {
-                Button(action: {
-                    showScanSheet.toggle()
-                }, label: {
-                    VStack {
-                        Text("Scan Button:" )
-                            .foregroundStyle(.black)
-                            .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
-                            .padding()
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 90)
-                                .frame(width: 350, height: 300)
-                                .foregroundStyle(Color.orange)
-                            Image("Scanner")
-                                .resizable()
-                                .frame(width: 280, height: 280)
-                            
-                        }
-                    }
-                })
-                .sheet(isPresented: $showScanSheet){
-                    HStack{
-                        Text("Scan Student ID")
+                HStack {
+                    Button(action: {
+                        showScanSheet.toggle()
                         
-                        TextField("Waiting for scan…", text: $scannedCode)
-                            .textFieldStyle(.roundedBorder)
-                        
-                            .onSubmit {
-                                processScan()
-//                                scannedCode = ""
-                                showScanSheet = false
+                    }, label: {
+                        VStack {
+                            Text("Scan Button:" )
+                                .foregroundStyle(.black)
+                                .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
+                                .padding()
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 90)
+                                    .frame(width: 350, height: 300)
+                                    .foregroundStyle(Color.orange)
+                                Image("Scanner")
+                                    .resizable()
+                                    .frame(width: 280, height: 280)
+                                
                             }
-                    }
-                }
-                Button(action: {
-                    showIDSheet.toggle()
-                }, label: {
-                    VStack {
-                        Text("ID Button:")
-                            .foregroundStyle(Color.black)
-                            .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
-                            .padding()
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 90)
-                                .frame(width: 350, height: 300)
-                                .foregroundStyle(Color.brown)
-                            Image("Keypad")
-                                .resizable()
-                                .frame(width: 300, height: 300)
+                        }
+                    })
+                    .sheet(isPresented: $showScanSheet){
+                        HStack{
+                            Text("Scan Student ID")
+                            
+                            TextField("Waiting for scan…", text: $scannedCode)
+                                .textFieldStyle(.roundedBorder)
+                            
+                                .onSubmit {
+                                    processScan()
+                                    //                                scannedCode = ""
+                                    showScanSheet = false
+                                }
                         }
                     }
-                })
-                .sheet(isPresented: $showIDSheet){
-                    Text("Type Student ID")
-                        .font(.largeTitle)
-                    
-                    TextField("Type Student ID here…", text: $typedID)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(width: 400, height: 50)
-                        .onSubmit {
-                            processID(typedID)
-                            typedID = ""
+                    Button(action: {
+                        showIDSheet.toggle()
+                    }, label: {
+                        VStack {
+                            Text("ID Button:")
+                                .foregroundStyle(Color.black)
+                                .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
+                                .padding()
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 90)
+                                    .frame(width: 350, height: 300)
+                                    .foregroundStyle(Color.brown)
+                                Image("Keypad")
+                                    .resizable()
+                                    .frame(width: 300, height: 300)
+                            }
                         }
-                    Image("Keypad")
+                    })
+                    .sheet(isPresented: $showIDSheet){
+                        Text("Type Student ID")
+                            .font(.largeTitle)
+                        
+                        TextField("Type Student ID here…", text: $typedID)
+                            .textFieldStyle(.roundedBorder)
+                            .frame(width: 400, height: 50)
+                            .onSubmit {
+                                processID(typedID)
+                                typedID = ""
+                            }
+                        Image("Keypad")
+                    }
                 }
             }
         }
+        func processScan(){
+            guard let intScannedCode = Int(scannedCode) else{
+                print("invaild scan")
+                return
+            }
+            myViewModel.getData(byField: "scannerId", value: intScannedCode)
+        }
+        func processID(_ code: String){
+            guard let intNumCode = Int(typedID) else{
+                print("invaild id#")
+                return
+            }
+            myViewModel.getData(byField: "id", value: intNumCode)
+        }
     }
-    func processScan(){
-        intScannedCode = Int(scannedCode)
-    }
-    func processID(_ code: String){
-        print("Scanned: \(code)")
-    }
-}
+    
+    
