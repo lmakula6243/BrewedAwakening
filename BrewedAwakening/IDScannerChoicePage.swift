@@ -25,8 +25,10 @@ struct IDScannerChoicePage: View {
                             Text("Scanner ID: \(student.scannerId)")
                             Text("Student ID: \(student.id)")
                         }
+                        .listRowBackground(Color(.orange))
                     }
                 }
+                
             }
             HStack {
                 Button(action: {
