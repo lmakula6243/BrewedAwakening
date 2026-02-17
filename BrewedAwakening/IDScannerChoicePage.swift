@@ -18,21 +18,17 @@ struct IDScannerChoicePage: View {
                 .padding()
             VStack {
                 List {
-                    ForEach($myViewModel.students) { student in
+                    ForEach(myViewModel.students) { student in
                         HStack {
-                            Text("\(student.firstname) \(student.lastname)")
-                                .font(.headline)
-                            
-                            Spacer()
-                            
-                            VStack(alignment: .trailing) {
-                                Text("Scanner: \(student.scannerId)")
-                                Text("Student ID: \(student.id)")
-                            }
-                            .font(.caption)
+                            Text(student.firstname)
+                            Text(student.lastname)
+                            Text("Scanner ID: \(student.scannerId)")
+                            Text("Student ID: \(student.id)")
                         }
+                        .listRowBackground(Color(.orange))
                     }
                 }
+                
             }
             HStack {
                 Button(action: {
@@ -56,18 +52,20 @@ struct IDScannerChoicePage: View {
                     }
                 })
                 .sheet(isPresented: $showScanSheet){
-                    HStack{
                         Text("Scan Student ID")
+                            .font(.largeTitle)
                         
                         TextField("Waiting for scan…", text: $scannedCode)
                             .textFieldStyle(.roundedBorder)
+                            .frame(width: 400, height: 50)
                         
                             .onSubmit {
                                 processScan()
                                 //                                scannedCode = ""
                                 showScanSheet = false
                             }
-                    }
+                        
+                        Image("Scanner")
                 }
                 Button(action: {
                     showIDSheet.toggle()
@@ -88,6 +86,7 @@ struct IDScannerChoicePage: View {
                     }
                 })
                 .sheet(isPresented: $showIDSheet){
+                    
                     Text("Type Student ID")
                         .font(.largeTitle)
                     
