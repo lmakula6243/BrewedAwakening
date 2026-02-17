@@ -47,7 +47,10 @@ struct GroupView: View {
                         .font(.headline)
                 })
                 .sheet(isPresented: $showAddGroupSheet) {
-                    Text("Name Of Your Group")
+                    Text("Name Your Group")
+                        .font(Font.custom("Hiragino Kaku Gothic StdN", size: 35))
+                    Text("(Ex: Mr. Smith)")
+                        .font(Font.custom("Hiragino Kaku Gothic StdN", size: 15))
                     TextField("Enter Group Name Here", text: $enteredNewGroup)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     Button(action: {
@@ -56,7 +59,14 @@ struct GroupView: View {
                         groups.append(Group(groupName: enteredNewGroup))
                         enteredNewGroup = ""
                     }, label: {
-                        Text("Done")
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 5)
+                                .foregroundStyle(.orange)
+                                .frame(width: 100, height: 40)
+                            Text("Done")
+                                .foregroundStyle(.black)
+                                .font(Font.custom("Hiragino Kaku Gothic StdN", size: 15))
+                        }
                     })
                 }
             }
