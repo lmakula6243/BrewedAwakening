@@ -25,20 +25,26 @@ struct GroupView: View {
             }
             Text("Start a working session...")
                 .font(.custom("Snell Roundhand Bold", size: 30))
-            
-            List {
-                ForEach($groups) { $group in
-                    NavigationLink {
-                        IDScannerChoicePage(group: $group)
-                    } label: {
-                        Text(group.groupName)
+            ZStack{
+                        
+
+                List {
+                    ForEach($groups) { $group in
+                        NavigationLink {
+                            IDScannerChoicePage(group: $group)
+                        } label: {
+                            Text(group.groupName)
+                                .font(Font.custom("Hiragino Kaku Gothic StdN", size: 15))
+                        }
                     }
-                }
-                
+                    .listRowBackground(Color(.systemGray3))
+                    }
+
                 Button(action: {
                     showAddGroupSheet.toggle()
                 }, label: {
                     Text("Don't see your group?")
+                        .font(.headline)
                 })
                 .sheet(isPresented: $showAddGroupSheet) {
                     Text("Name Of Your Group")
