@@ -50,18 +50,20 @@ struct IDScannerChoicePage: View {
                     }
                 })
                 .sheet(isPresented: $showScanSheet){
-                    HStack{
                         Text("Scan Student ID")
+                            .font(.largeTitle)
                         
                         TextField("Waiting for scan…", text: $scannedCode)
                             .textFieldStyle(.roundedBorder)
+                            .frame(width: 400, height: 50)
                         
                             .onSubmit {
                                 processScan()
                                 //                                scannedCode = ""
                                 showScanSheet = false
                             }
-                    }
+                        
+                        Image("Scanner")
                 }
                 Button(action: {
                     showIDSheet.toggle()
@@ -82,6 +84,7 @@ struct IDScannerChoicePage: View {
                     }
                 })
                 .sheet(isPresented: $showIDSheet){
+                    
                     Text("Type Student ID")
                         .font(.largeTitle)
                     
