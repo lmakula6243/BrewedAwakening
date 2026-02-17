@@ -18,18 +18,12 @@ struct IDScannerChoicePage: View {
                 .padding()
             VStack {
                 List {
-                    ForEach($myViewModel.students) { student in
+                    ForEach(myViewModel.students) { student in
                         HStack {
-                            Text("\(student.firstname) \(student.lastname)")
-                                .font(.headline)
-                            
-                            Spacer()
-                            
-                            VStack(alignment: .trailing) {
-                                Text("Scanner: \(student.scannerId)")
-                                Text("Student ID: \(student.id)")
-                            }
-                            .font(.caption)
+                            Text(student.firstname)
+                            Text(student.lastname)
+                            Text("Scanner ID: \(student.scannerId)")
+                            Text("Student ID: \(student.id)")
                         }
                     }
                 }

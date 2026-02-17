@@ -1,56 +1,62 @@
-//
-//  StudentsViewModel.swift
-//  BrewedAwakening
-//
-//  Created by Lily P. Makula on 1/21/26.
-//
-
-
 import Foundation
 import FirebaseDatabase
 import Combine
 
-class StudentsViewModel: ObservableObject{
+class StudentsViewModel: ObservableObject {
     @Published var students: [Student] = []
     
-    
-    func getData(
-        byField field: String,
-        value: Int
-    ) {
+    func getData(byField field: String, value: Int) {
         let ref = Database.database().reference()
         
         ref.child("students")
             .queryOrdered(byChild: field)
             .queryEqual(toValue: value)
-            .observeSingleEvent(of: .value) { snapshot in
+            .observeSingleEvent(of: .value, with: { snapshot in
+                
                 print("FULL SNAPSHOT:")
                 print(snapshot.value as Any)
                 
-                guard let result = snapshot.value as? [String: Any],
-                      let (key, dict) = result.first,
-                      let data = dict as? [String: Any]
-                else {
-                    print("Student not found")
+                var foundStudents: [Student] = []
+                
+                if let rawArray = snapshot.value as? [Any] {
+                    // Case: Firebase returned array (possibly with <null> holes)
+                    for item in rawArray {
+                        guard let data = item as? [String: Any] else { continue }
+                        
+                        let student = Student(
+                            skey: UUID().uuidString,
+                            firstname: data["firstName"] as? String ?? "",
+                            id: data["id"] as? Int ?? 0,
+                            lastname: data["lastName"] as? String ?? "",
+                            scannerId: data["scannerId"] as? Int ?? 0
+                        )
+                        foundStudents.append(student)
+                    }
+                } else if let dict = snapshot.value as? [String: [String: Any]] {
+                    // Case: Firebase returned dictionary keyed by index
+                    for (key, data) in dict {
+                        let student = Student(
+                            skey: key,
+                            firstname: data["firstName"] as? String ?? "",
+                            id: data["id"] as? Int ?? 0,
+                            lastname: data["lastName"] as? String ?? "",
+                            scannerId: data["scannerId"] as? Int ?? 0
+                        )
+                        foundStudents.append(student)
+                    }
+                } else {
+                    print("No students found")
                     return
                 }
                 
-                let student = Student(
-                    skey: key,
-                    firstname: data["firstName"] as? String ?? "",
-                    id: data["id"] as? Int ?? 0,
-                    lastname: data["lastName"] as? String ?? "",
-                    scannerId: data["scannerId"] as? Int ?? 0
-                )
-                print("Scanned student:", student.firstname, student.lastname)
-
                 DispatchQueue.main.async {
-                    self.students = [student]
+                    for s in foundStudents {
+                        if !self.students.contains(where: { $0.id == s.id }) {
+                            self.students.append(s)
+                        }
+                    }
                 }
-            }
+            })
     }
+
 }
-
-
-
-
