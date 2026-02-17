@@ -12,12 +12,11 @@ struct GroupView: View {
     @State var enteredNewGroup: String = ""
     @Binding var groups: [Group]
     var body: some View {
-        NavigationStack{
             ZStack{
                 Text("Welcome")
                     .font(.custom("Hiragino Kaku Gothic StdN", size: 50))
                     .foregroundStyle(.brown)
-                    
+                
                 Text("Welcome")
                     .font(.custom("Hiragino Kaku Gothic StdN", size: 50))
                     .foregroundStyle(.orange)
@@ -46,7 +45,7 @@ struct GroupView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     Button(action: {
                         showAddGroupSheet.toggle()
-//                        groupName = enteredNewGroup
+                        //                        groupName = enteredNewGroup
                         groups.append(Group(groupName: enteredNewGroup))
                         enteredNewGroup = ""
                     }, label: {
@@ -55,7 +54,9 @@ struct GroupView: View {
                 }
             }
         }
+        
+        
+        
+        
     }
-
-
 

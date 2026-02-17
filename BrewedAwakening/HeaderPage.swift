@@ -8,33 +8,46 @@ import SwiftUI
 import FirebaseCore
 
 struct HeaderPage: View {
+    
     var body: some View {
-        VStack {
-            HStack {
-                NavigationLink {
-                    HomePage()
-                } label: {
-                    Image(systemName: "house.fill")
-                        .resizable()
-                        .frame(width: 50, height: 50)
+        NavigationStack {
+            VStack {
+                HStack {
+                    NavigationLink {
+                        HomePage()
+                    } label: {
+                        Image(systemName: "house.fill")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .padding()
+                        
+                    }
+                    Spacer()
                     
+                    
+                        .padding(.horizontal)
+                        .frame(maxWidth: .infinity)
+                        .overlay {
+                            Text("Brewed Awakening")
+                                .font(.custom("Hiragino Kaku Gothic StdN", size: 50))
+                                .bold()
+                                .padding()
+                        }
+                    Spacer()
+                    NavigationLink {
+                        workerStatsPage()
+                    } label: {
+                        Image(systemName: "person.3.fill")
+                            .resizable()
+                            .frame(width: 60, height: 50)
+                            .padding()
+                    }
                 }
-                Spacer()
+                Divider()
+                    .padding()
                 
             }
-            .padding(.horizontal)
-            .frame(maxWidth: .infinity)
-            .overlay {
-                Text("Brewed Awakening")
-                    .font(.custom("Hiragino Kaku Gothic StdN", size: 50))
-                    .bold()
-                    .padding()
-            }
-            
-            Divider()
-                .padding()
-            
         }
+        
     }
-    
 }

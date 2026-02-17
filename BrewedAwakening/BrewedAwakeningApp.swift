@@ -12,24 +12,31 @@ import FirebaseDatabase
 @main
 struct MyApp: App {
     @State var groupName: String = ""
-        @State var groups: [Group] = []
+    @State var groups: [Group] = []
     init(){
         FirebaseApp.configure()
         print("firebase is configured")
     }
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
-                VStack {
-                    HeaderPage()
-                        .frame(width: 1200, height: 150)
-                    GroupView(groups: $groups)
-//                    GroupView(groupName: $groupName, groups: $groups)
-                    HomePage()
-                    
+            VStack {
+                HeaderPage()
+                    .frame(height: 150)
+                
+                NavigationStack {
+                    VStack(spacing: 0) {
+                        GroupView(groups: $groups)
+                        HomePage()
+                            
+                    }
                 }
             }
             
+            
         }
+        
+        
+        
+        
     }
 }
