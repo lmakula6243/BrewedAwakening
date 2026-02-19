@@ -19,7 +19,7 @@ class StudentsViewModel: ObservableObject {
                 var foundStudents: [Student] = []
                 
                 if let rawArray = snapshot.value as? [Any] {
-                    // Case: Firebase returned array (possibly with <null> holes)
+                    //  Used when firebase returns an array that can possibly have nulls (missing index of the array but student still matched by the id/ scanner id)
                     for item in rawArray {
                         guard let data = item as? [String: Any] else { continue }
                         
@@ -33,7 +33,7 @@ class StudentsViewModel: ObservableObject {
                         foundStudents.append(student)
                     }
                 } else if let dict = snapshot.value as? [String: [String: Any]] {
-                    // Case: Firebase returned dictionary keyed by index
+                    //Used when the data firebase returns a dictonary keyed by the index
                     for (key, data) in dict {
                         let student = Student(
                             skey: key,
