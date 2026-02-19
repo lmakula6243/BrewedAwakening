@@ -75,6 +75,6 @@ struct GroupView: View {
         
         
     }
-}
+
 
 
