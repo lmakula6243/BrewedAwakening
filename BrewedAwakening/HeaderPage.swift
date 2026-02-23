@@ -8,7 +8,7 @@ import SwiftUI
 import FirebaseCore
 
 struct HeaderPage: View {
-    
+    @State var groups: [Group] = []
     var body: some View {
         NavigationStack {
             VStack {
@@ -35,7 +35,7 @@ struct HeaderPage: View {
                         }
                     Spacer()
                     NavigationLink {
-                        workerStatsPage()
+                        workerStatsPage(groups: $groups)
                     } label: {
                         Image(systemName: "person.3.fill")
                             .resizable()

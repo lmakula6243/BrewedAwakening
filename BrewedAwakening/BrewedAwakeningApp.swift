@@ -20,23 +20,19 @@ struct MyApp: App {
     var body: some Scene {
         WindowGroup {
             VStack {
-                HeaderPage()
+                HeaderPage(groups: groups)
                     .frame(height: 150)
                 
                 NavigationStack {
                     VStack(spacing: 0) {
                         GroupView(groups: $groups)
                         HomePage()
-                            
+                        
                     }
+                    //                workerStatsPage(groups: $groups)
                 }
             }
-            
-            
         }
-        
-        
-        
-        
     }
+    
 }
