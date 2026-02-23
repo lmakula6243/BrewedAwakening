@@ -8,13 +8,12 @@ import SwiftUI
 import FirebaseCore
 
 struct HeaderPage: View {
-    
+    @Binding var selectedPage: String
     var body: some View {
-        NavigationStack {
             VStack {
                 HStack {
-                    NavigationLink {
-                        HomePage()
+                    Button {
+                        selectedPage = "home"
                     } label: {
                         Image(systemName: "house.fill")
                             .resizable()
@@ -34,8 +33,8 @@ struct HeaderPage: View {
                                 .padding()
                         }
                     Spacer()
-                    NavigationLink {
-                        workerStatsPage()
+                    Button {
+                        selectedPage = "stats"
                     } label: {
                         Image(systemName: "person.3.fill")
                             .resizable()
@@ -50,4 +49,4 @@ struct HeaderPage: View {
         }
         
     }
-}
+
