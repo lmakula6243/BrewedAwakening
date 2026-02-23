@@ -38,7 +38,7 @@ struct MyApp: App {
                     } else if selectedPage == "groups" {
                         GroupView(groups: $group)
                     } else if selectedPage == "stats" {
-                        workerStatsPage()
+                        workerStatsPage(groups: $group)
                     }
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
