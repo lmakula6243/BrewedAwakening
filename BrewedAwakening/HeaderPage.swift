@@ -9,6 +9,7 @@ import FirebaseCore
 
 struct HeaderPage: View {
     @Binding var selectedPage: String
+    @State var groups: [Group] = []
     var body: some View {
             VStack {
                 HStack {
