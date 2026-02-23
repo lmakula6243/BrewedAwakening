@@ -9,7 +9,14 @@ import SwiftUI
 import FirebaseCore
 
 struct workerStatsPage: View {
+    
     var body: some View {
-        Text("Hello, World!")
+        NavigationSplitView {
+            Text("Buttons go here")
+            
+        } detail: {
+            Text("List Goes Here")
+        }
     }
+    
 }
