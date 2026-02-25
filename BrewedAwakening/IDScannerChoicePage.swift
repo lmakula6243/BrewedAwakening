@@ -9,6 +9,7 @@ struct IDScannerChoicePage: View {
     @State var typedID = ""
     @State var showIDSheet = false
     @StateObject var myViewModel: StudentsViewModel = StudentsViewModel()
+    @StateObject var groupsVM: GroupsViewModel = GroupsViewModel()
     @State var nameOfGroup: String = ""
     @Binding var group: Group
     var body: some View {
@@ -28,6 +29,33 @@ struct IDScannerChoicePage: View {
                         }
                         .listRowBackground(Color(.orange))
                     }
+                    .onDelete { indexSet in
+                        for index in indexSet {
+                            let student = group.students[index]
+                            
+                            // Remove locally
+                            group.students.remove(at: index)
+                            
+                            // Remove from Firebase
+                            groupsVM.removeStudentFromGroup(
+                                groupId: group.id,
+                                student: student
+                            )
+                        }
+                    }
+                }
+                .onReceive(myViewModel.$students) { newStudents in
+                    guard let foundStudent = newStudents.last else { return }
+
+                    
+                    if !group.students.contains(where: { $0.id == foundStudent.id }) {
+                        group.students.append(foundStudent)
+                    }
+
+                    groupsVM.addStudentToGroup(
+                        groupId: group.id,   
+                        student: foundStudent
+                    )
                 }
                 
             }
@@ -62,7 +90,6 @@ struct IDScannerChoicePage: View {
                         
                             .onSubmit {
                                 processScan()
-                                //                                scannedCode = ""
                                 showScanSheet = false
                             }
                         
@@ -111,6 +138,7 @@ struct IDScannerChoicePage: View {
             } else {
                 print("Invalid scan")
             }
+           
         }
         
         func processID(_ code: String){
