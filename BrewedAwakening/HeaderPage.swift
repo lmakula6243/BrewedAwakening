@@ -12,39 +12,49 @@ struct HeaderPage: View {
     @State var groups: [Group] = []
     var body: some View {
             VStack {
-                HStack {
-                    Button {
-                        selectedPage = "home"
-                    } label: {
-                        Image(systemName: "house.fill")
-                            .resizable()
-                            .frame(width: 50, height: 50)
-                            .padding()
-                        
-                    }
-                    Spacer()
-                    
-                    
-                        .padding(.horizontal)
-                        .frame(maxWidth: .infinity)
-                        .overlay {
-                            Text("Brewed Awakening")
-                                .font(.custom("Hiragino Kaku Gothic StdN", size: 50))
-                                .bold()
+                ZStack {
+                    Text("Brewed Awakening")
+                        .font(.custom("Hiragino Kaku Gothic StdN", size: 50))
+                        .bold()
+                        .padding()
+                    HStack {
+                        Button {
+                            selectedPage = "home"
+                        } label: {
+                            Image(systemName: "house.fill")
+                                .resizable()
+                                .frame(width: 50, height: 50)
                                 .padding()
+                                .foregroundStyle(.brown)
+                            
                         }
-                    Spacer()
-                    Button {
-                        selectedPage = "stats"
-                    } label: {
-                        Image(systemName: "person.3.fill")
-                            .resizable()
-                            .frame(width: 60, height: 50)
-                            .padding()
+                        Button {
+                            selectedPage = "groups"
+                        }label: {
+                            Image(systemName: "person.3.fill")
+                                .resizable()
+                                .frame(width: 75, height: 50)
+                                .padding()
+                                .foregroundStyle(.brown)
+                        }
+                        
+                        Spacer()
+                            .padding(.horizontal)
+                            .frame(maxWidth: .infinity)
+                        
+                        Button {
+                            selectedPage = "stats"
+                        } label: {
+                            Image(systemName: "chart.bar.xaxis.ascending.badge.clock")
+                                .resizable()
+                                .frame(width: 70, height: 60)
+                                .padding()
+                                .foregroundStyle(Color(.systemBrown))
+                        }
                     }
                 }
                 Divider()
-                    .padding()
+                    
                 
             }
         }
