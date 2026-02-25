@@ -39,6 +39,7 @@ struct GroupView: View {
                         } label: {
                             Text(group.groupName)
                                 .font(Font.custom("Hiragino Kaku Gothic StdN", size: 15))
+                                .foregroundStyle(.black)
                         }
                     }
                     .listRowBackground(Color(.systemGray3))
@@ -49,6 +50,7 @@ struct GroupView: View {
                 }, label: {
                     Text("Don't see your group?")
                         .font(.headline)
+                        .foregroundStyle(.black)
                 })
                 .sheet(isPresented: $showAddGroupSheet) {
                     Text("Name Your Group")

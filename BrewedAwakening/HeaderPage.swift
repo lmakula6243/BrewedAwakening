@@ -11,7 +11,7 @@ struct HeaderPage: View {
     @Binding var selectedPage: String
     @State var groups: [Group] = []
     var body: some View {
-            VStack {
+        VStack(spacing: 0) {
                 ZStack {
                     Text("Brewed Awakening")
                         .font(.custom("Hiragino Kaku Gothic StdN", size: 50))
@@ -25,7 +25,7 @@ struct HeaderPage: View {
                                 .resizable()
                                 .frame(width: 50, height: 50)
                                 .padding()
-                                .foregroundStyle(.brown)
+                                .foregroundStyle(Color(red: 0.35, green: 0.22, blue: 0.12))
                             
                         }
                         Button {
@@ -35,7 +35,7 @@ struct HeaderPage: View {
                                 .resizable()
                                 .frame(width: 75, height: 50)
                                 .padding()
-                                .foregroundStyle(.brown)
+                                .foregroundStyle(Color(red: 0.35, green: 0.22, blue: 0.12))
                         }
                         
                         Spacer()
@@ -49,14 +49,14 @@ struct HeaderPage: View {
                                 .resizable()
                                 .frame(width: 70, height: 60)
                                 .padding()
-                                .foregroundStyle(Color(.systemBrown))
+                                .foregroundStyle(Color(red: 0.35, green: 0.22, blue: 0.12))
                         }
                     }
                 }
                 Divider()
-                    
                 
             }
+        .frame(maxWidth: .infinity)
         }
         
     }
