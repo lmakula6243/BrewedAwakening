@@ -36,7 +36,7 @@ struct MyApp: App {
                                     .foregroundColor(.gray)
                                         }
                     } else if selectedPage == "groups" {
-                        GroupView(groups: $group)
+                        GroupView(groups: $group, selectedPage: $selectedPage)
                     } else if selectedPage == "stats" {
                         workerStatsPage(groups: $group)
                     }

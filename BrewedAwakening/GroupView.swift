@@ -14,6 +14,7 @@ struct GroupView: View {
     @State var showAddGroupSheet = false
     @State var enteredNewGroup: String = ""
     @Binding var groups: [Group]
+    @Binding var selectedPage: String
     var body: some View {
         ZStack{
             Text("Welcome")
@@ -32,8 +33,8 @@ struct GroupView: View {
             
             List {
                 ForEach($groups) { $group in
-                    NavigationLink {
-                        IDScannerChoicePage(group: $group)
+                    Button {
+                        selectedPage = "home"
                     } label: {
                         Text(group.groupName)
                             .font(Font.custom("Hiragino Kaku Gothic StdN", size: 15))
