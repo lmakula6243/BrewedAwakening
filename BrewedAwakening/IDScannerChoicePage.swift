@@ -38,11 +38,7 @@ struct IDScannerChoicePage: View {
                     .onDelete { indexSet in
                         for index in indexSet {
                             let student = group.students[index]
-                            
-                            // Remove locally
                             group.students.remove(at: index)
-                            
-                            // Remove from Firebase
                             groupsVM.removeStudentFromGroup(
                                 groupId: group.id,
                                 student: student
@@ -180,6 +176,21 @@ struct IDScannerChoicePage: View {
         
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
+    
+    func removeStudentFromGroup(at offsets: IndexSet) {
+                for index in offsets {
+                    let student = myViewModel.students[index]
+                    
+                    myViewModel.students.remove(at: index)
+                    group.students.removeAll { $0.id == student.id }
+                    
+                    groupsVM.removeStudentFromGroup(
+                        groupId: group.id,
+                        student: student
+                    )
+                }
+            }
+
     }
     
     
