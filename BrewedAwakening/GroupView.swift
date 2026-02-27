@@ -61,8 +61,6 @@ struct GroupView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     Button(action: {
                         showAddGroupSheet.toggle()
-                        let newGroup = Group(id: <#String#>, groupName: enteredNewGroup)
-                        groups.append(newGroup)
                         GroupsVM.createGroup(groupName: enteredNewGroup) { newGroup in
                             groups.append(newGroup)
                         }
