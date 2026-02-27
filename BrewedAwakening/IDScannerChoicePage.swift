@@ -1,6 +1,7 @@
 import SwiftUI
 import FirebaseDatabase
 import FirebaseCore
+import Combine
 
 struct IDScannerChoicePage: View {
     @State var scannedCode = ""
@@ -12,6 +13,7 @@ struct IDScannerChoicePage: View {
     @StateObject var groupsVM: GroupsViewModel = GroupsViewModel()
     @State var nameOfGroup: String = ""
     @Binding var group: Group
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     var body: some View {
         
         VStack {
@@ -26,6 +28,10 @@ struct IDScannerChoicePage: View {
                             Text(student.lastname)
                             Text("Scanner ID: \(student.scannerId)")
                             Text("Student ID: \(student.id)")
+                            if let start = student.clockInTime {
+                                Text(timeWorked(since: start))
+                                    .font(.headline)
+                            }
                         }
                         .listRowBackground(Color(.orange))
                     }
@@ -56,6 +62,20 @@ struct IDScannerChoicePage: View {
                         groupId: group.id,   
                         student: foundStudent
                     )
+                    
+                    if let index = group.students.firstIndex(where: { $0.id == foundStudent.id }) {
+                            
+
+                            group.students[index].clockInTime = Date()
+                            
+                        } else {
+                            var newStudent = foundStudent
+                            
+                            newStudent.clockInTime = Date()
+                            
+                            group.students.append(newStudent)
+                        }
+                    
                 }
                 
             }
@@ -128,8 +148,11 @@ struct IDScannerChoicePage: View {
                     Image("Keypad")
                 }
             }
+        }.onReceive(timer) { _ in
+            
         }
     }
+    
     
         func processScan() {
             
@@ -148,6 +171,15 @@ struct IDScannerChoicePage: View {
             }
             myViewModel.getData(byField: "id", value: intNumCode)
         }
+    func timeWorked(since start: Date) -> String {
+        let totalSeconds = Int(Date().timeIntervalSince(start))
+        
+        let hours = totalSeconds / 3600
+        let minutes = (totalSeconds % 3600) / 60
+        let seconds = totalSeconds % 60
+        
+        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+    }
     }
     
     
