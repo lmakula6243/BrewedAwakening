@@ -32,19 +32,19 @@ struct IDScannerChoicePage: View {
                             }
                             .listRowBackground(Color(.orange))
                         }
-                    }
-                    .onDelete { indexSet in
-                        for index in indexSet {
-                            let student = group.students[index]
-                            
-                            // Remove locally
-                            group.students.remove(at: index)
-                            
-                            // Remove from Firebase
-                            groupsVM.removeStudentFromGroup(
-                                groupId: group.id,
-                                student: student
-                            )
+                        .onDelete { indexSet in
+                            for index in indexSet {
+                                let student = group.students[index]
+                                
+                                // Remove locally
+                                group.students.remove(at: index)
+                                
+                                // Remove from Firebase
+                                groupsVM.removeStudentFromGroup(
+                                    groupId: group.id,
+                                    student: student
+                                )
+                            }
                         }
                     }
                 }
@@ -76,12 +76,6 @@ struct IDScannerChoicePage: View {
                     
                 }
                 
-            }
-            HStack {
-                Button(action: {
-                    showScanSheet.toggle()
-                    
-                }
                 HStack {
                     Button(action: {
                         showScanSheet.toggle()
