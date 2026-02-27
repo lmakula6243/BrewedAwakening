@@ -10,7 +10,7 @@ import FirebaseDatabase
 
 
 struct GroupView: View {
-    @StateObject var GroupVM: GroupsViewModel = GroupsViewModel()
+    @StateObject var GroupsVM: GroupsViewModel = GroupsViewModel()
     @State var showAddGroupSheet = false
     @State var enteredNewGroup: String = ""
     @Binding var groups: [Group]
@@ -61,9 +61,11 @@ struct GroupView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                     Button(action: {
                         showAddGroupSheet.toggle()
-                        let newGroup = Group(groupName: enteredNewGroup)
+                        let newGroup = Group(id: <#String#>, groupName: enteredNewGroup)
                         groups.append(newGroup)
-                        GroupVM.createGroup(groupName: enteredNewGroup)
+                        GroupsVM.createGroup(groupName: enteredNewGroup) { newGroup in
+                            groups.append(newGroup)
+                        }
                         enteredNewGroup = ""
                     }, label: {
                         ZStack{

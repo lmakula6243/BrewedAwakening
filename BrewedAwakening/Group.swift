@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct Group: Identifiable {
-    let id = UUID()
+    let id: String
     var groupName: String
     var students: [Student] = []
 }

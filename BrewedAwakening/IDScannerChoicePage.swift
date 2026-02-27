@@ -1,6 +1,7 @@
 import SwiftUI
 import FirebaseDatabase
 import FirebaseCore
+import Combine
 
 struct IDScannerChoicePage: View {
     @State var scannedCode = ""
@@ -9,9 +10,11 @@ struct IDScannerChoicePage: View {
     @State var typedID = ""
     @State var showIDSheet = false
     @StateObject var myViewModel: StudentsViewModel = StudentsViewModel()
+    @StateObject var groupsVM: GroupsViewModel = GroupsViewModel()
     @State var nameOfGroup: String = ""
     @Binding var group: Group
     @State var showCheckmark = false
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     var body: some View {
         ZStack {
             VStack {
@@ -30,6 +33,53 @@ struct IDScannerChoicePage: View {
                             .listRowBackground(Color(.orange))
                         }
                     }
+                    .onDelete { indexSet in
+                        for index in indexSet {
+                            let student = group.students[index]
+                            
+                            // Remove locally
+                            group.students.remove(at: index)
+                            
+                            // Remove from Firebase
+                            groupsVM.removeStudentFromGroup(
+                                groupId: group.id,
+                                student: student
+                            )
+                        }
+                    }
+                }
+                .onReceive(myViewModel.$students) { newStudents in
+                    guard let foundStudent = newStudents.last else { return }
+
+                    
+                    if !group.students.contains(where: { $0.id == foundStudent.id }) {
+                        group.students.append(foundStudent)
+                    }
+
+                    groupsVM.addStudentToGroup(
+                        groupId: group.id,   
+                        student: foundStudent
+                    )
+                    
+                    if let index = group.students.firstIndex(where: { $0.id == foundStudent.id }) {
+                            
+
+                            group.students[index].clockInTime = Date()
+                            
+                        } else {
+                            var newStudent = foundStudent
+                            
+                            newStudent.clockInTime = Date()
+                            
+                            group.students.append(newStudent)
+                        }
+                    
+                }
+                
+            }
+            HStack {
+                Button(action: {
+                    showScanSheet.toggle()
                     
                 }
                 HStack {
@@ -63,7 +113,6 @@ struct IDScannerChoicePage: View {
                         
                             .onSubmit {
                                 processScan()
-                                //                                scannedCode = ""
                                 showScanSheet = false
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                                     withAnimation{
@@ -137,8 +186,11 @@ struct IDScannerChoicePage: View {
                         .symbolEffect(.bounce, value: showCheckmark)
                 }
             }
+        }.onReceive(timer) { _ in
+            
         }
     }
+    
     
         func processScan() {
             
@@ -147,6 +199,7 @@ struct IDScannerChoicePage: View {
             } else {
                 print("Invalid scan")
             }
+           
         }
         
         func processID(_ code: String){
@@ -156,6 +209,15 @@ struct IDScannerChoicePage: View {
             }
             myViewModel.getData(byField: "id", value: intNumCode)
         }
+    func timeWorked(since start: Date) -> String {
+        let totalSeconds = Int(Date().timeIntervalSince(start))
+        
+        let hours = totalSeconds / 3600
+        let minutes = (totalSeconds % 3600) / 60
+        let seconds = totalSeconds % 60
+        
+        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+    }
     }
     
     

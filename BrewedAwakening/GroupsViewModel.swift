@@ -10,12 +10,47 @@ import Foundation
 import Combine
 
 class GroupsViewModel: ObservableObject {
-    //@Published var groups: [Group] = []
     
-    func createGroup(groupName: String){
+    
+    func createGroup(groupName: String, completion: @escaping (Group) -> Void) {
         let ref = Database.database().reference()
         let groupRef = ref.child("groups").childByAutoId()
-        let data: [String: Any] = ["groupName": groupName]
+
+        let data: [String: Any] = [
+            "groupName": groupName
+        ]
+
         groupRef.setValue(data)
+
+        let group = Group(
+            id: groupRef.key ?? UUID().uuidString,
+            groupName: groupName
+        )
+
+        completion(group)
+    }
+    
+    
+    func addStudentToGroup(groupId: String, student: Student) {
+        let ref = Database.database().reference()
+        ref.child("groups")
+            .child(groupId)
+            .child("members")
+            .child(student.skey)
+            .setValue([
+                "firstName": student.firstname,
+                "lastName": student.lastname,
+                "id": student.id,
+                "scannerId": student.scannerId
+            ])
+    }
+    
+    func removeStudentFromGroup(groupId: String, student: Student) {
+        let ref = Database.database().reference()
+        ref.child("groups")
+            .child(groupId)
+            .child("members")
+            .child(student.skey)
+            .removeValue()
     }
 }
