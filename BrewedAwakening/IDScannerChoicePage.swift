@@ -28,127 +28,129 @@ struct IDScannerChoicePage: View {
                             Text("Student ID: \(student.id)")
                         }
                         .listRowBackground(Color(.orange))
+                        
                     }
-                    .onDelete { indexSet in
-                        for index in indexSet {
-                            let student = group.students[index]
-                            
-                            // Remove locally
-                            group.students.remove(at: index)
-                            
-                            // Remove from Firebase
-                            groupsVM.removeStudentFromGroup(
-                                groupId: group.id,
-                                student: student
-                            )
-                        }
-                    }
+                    .onDelete(perform: removeStudentFromGroup)
                 }
-                .onReceive(myViewModel.$students) { newStudents in
-                    guard let foundStudent = newStudents.last else { return }
-
-                    
-                    if !group.students.contains(where: { $0.id == foundStudent.id }) {
-                        group.students.append(foundStudent)
-                    }
-
-                    groupsVM.addStudentToGroup(
-                        groupId: group.id,   
-                        student: foundStudent
-                    )
+            }
+            .onReceive(myViewModel.$students) { newStudents in
+                guard let foundStudent = newStudents.last else { return }
+                
+                
+                if !group.students.contains(where: { $0.id == foundStudent.id }) {
+                    group.students.append(foundStudent)
                 }
                 
+                groupsVM.addStudentToGroup(
+                    groupId: group.id,
+                    student: foundStudent
+                )
             }
-            HStack {
-                Button(action: {
-                    showScanSheet.toggle()
-                    
-                }, label: {
-                    VStack {
-                        Text("Scan Button:" )
-                            .foregroundStyle(.black)
-                            .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
-                            .padding()
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 90)
-                                .frame(width: 350, height: 300)
-                                .foregroundStyle(Color.orange)
-                            Image("Scanner")
-                                .resizable()
-                                .frame(width: 280, height: 280)
-                            
-                        }
-                    }
-                })
-                .sheet(isPresented: $showScanSheet){
-                        Text("Scan Student ID")
-                            .font(.largeTitle)
-                        
-                        TextField("Waiting for scan…", text: $scannedCode)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(width: 400, height: 50)
-                        
-                            .onSubmit {
-                                processScan()
-                                showScanSheet = false
-                            }
-                        
-                        Image("Scanner")
-                }
-                Button(action: {
-                    showIDSheet.toggle()
-                }, label: {
-                    VStack {
-                        Text("ID Button:")
-                            .foregroundStyle(Color.black)
-                            .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
-                            .padding()
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 90)
-                                .frame(width: 350, height: 300)
-                                .foregroundStyle(Color.brown)
-                            Image("Keypad")
-                                .resizable()
-                                .frame(width: 300, height: 300)
-                        }
-                    }
-                })
-                .sheet(isPresented: $showIDSheet){
-                    
-                    Text("Type Student ID")
-                        .font(.largeTitle)
-                    
-                    TextField("Type Student ID here…", text: $typedID)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(width: 400, height: 50)
-                        .onSubmit {
-                            processID(typedID)
-                            typedID = ""
-                        }
-                    Image("Keypad")
-                }
-            }
-        }
-    }
-    
-        func processScan() {
             
-            if let intScannedCode = Int(scannedCode) {
-                myViewModel.getData(byField: "scannerId", value: intScannedCode)
-            } else {
-                print("Invalid scan")
-            }
-           
         }
-        
-        func processID(_ code: String){
-            guard let intNumCode = Int(typedID) else{
-                print("invaild id#")
-                return
+        HStack {
+            Button(action: {
+                showScanSheet.toggle()
+                
+            }, label: {
+                VStack {
+                    Text("Scan Button:" )
+                        .foregroundStyle(.black)
+                        .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
+                        .padding()
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 90)
+                            .frame(width: 350, height: 300)
+                            .foregroundStyle(Color.orange)
+                        Image("Scanner")
+                            .resizable()
+                            .frame(width: 280, height: 280)
+                        
+                    }
+                }
+            })
+            .sheet(isPresented: $showScanSheet){
+                Text("Scan Student ID")
+                    .font(.largeTitle)
+                
+                TextField("Waiting for scan…", text: $scannedCode)
+                    .textFieldStyle(.roundedBorder)
+                    .frame(width: 400, height: 50)
+                
+                    .onSubmit {
+                        processScan()
+                        showScanSheet = false
+                    }
+                
+                Image("Scanner")
             }
-            myViewModel.getData(byField: "id", value: intNumCode)
+            Button(action: {
+                showIDSheet.toggle()
+            }, label: {
+                VStack {
+                    Text("ID Button:")
+                        .foregroundStyle(Color.black)
+                        .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
+                        .padding()
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 90)
+                            .frame(width: 350, height: 300)
+                            .foregroundStyle(Color.brown)
+                        Image("Keypad")
+                            .resizable()
+                            .frame(width: 300, height: 300)
+                    }
+                }
+            })
+            .sheet(isPresented: $showIDSheet){
+                
+                Text("Type Student ID")
+                    .font(.largeTitle)
+                
+                TextField("Type Student ID here…", text: $typedID)
+                    .textFieldStyle(.roundedBorder)
+                    .frame(width: 400, height: 50)
+                    .onSubmit {
+                        processID(typedID)
+                        typedID = ""
+                    }
+                Image("Keypad")
+            }
         }
     }
-    
-    
 
+
+func processScan() {
+    
+    if let intScannedCode = Int(scannedCode) {
+        myViewModel.getData(byField: "scannerId", value: intScannedCode)
+    } else {
+        print("Invalid scan")
+    }
+    
+}
+
+func processID(_ code: String){
+    guard let intNumCode = Int(typedID) else{
+        print("invaild id#")
+        return
+    }
+    myViewModel.getData(byField: "id", value: intNumCode)
+}
+
+func removeStudentFromGroup(at offsets: IndexSet) {
+    for index in offsets {
+        let student = myViewModel.students[index]
+        
+        myViewModel.students.remove(at: index)
+        group.students.removeAll { $0.id == student.id }
+        
+        groupsVM.removeStudentFromGroup(
+            groupId: group.id,     // Firebase ID
+            student: student
+        )
+    }
+}
+
+
+}
