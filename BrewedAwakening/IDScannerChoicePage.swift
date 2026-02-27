@@ -11,48 +11,49 @@ struct IDScannerChoicePage: View {
     @StateObject var myViewModel: StudentsViewModel = StudentsViewModel()
     @State var nameOfGroup: String = ""
     @Binding var group: Group
+    @State var showCheckmark = false
     var body: some View {
-        
-        VStack {
-            Text("\(group.groupName)'s group is signing in")
-                .font(.custom("Hiragino Kaku Gothic StdN", size: 35))
-                .padding()
+        ZStack {
             VStack {
-                List {
-                    ForEach(myViewModel.students) { student in
-                        HStack {
-                            Text(student.firstname)
-                            Text(student.lastname)
-                            Text("Scanner ID: \(student.scannerId)")
-                            Text("Student ID: \(student.id)")
+                Text("\(group.groupName)'s group is signing in")
+                    .font(.custom("Hiragino Kaku Gothic StdN", size: 35))
+                    .padding()
+                VStack {
+                    List {
+                        ForEach(myViewModel.students) { student in
+                            HStack {
+                                Text(student.firstname)
+                                Text(student.lastname)
+                                Text("Scanner ID: \(student.scannerId)")
+                                Text("Student ID: \(student.id)")
+                            }
+                            .listRowBackground(Color(.orange))
                         }
-                        .listRowBackground(Color(.orange))
                     }
-                }
-                
-            }
-            HStack {
-                Button(action: {
-                    showScanSheet.toggle()
                     
-                }, label: {
-                    VStack {
-                        Text("Scan Button:" )
-                            .foregroundStyle(.black)
-                            .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
-                            .padding()
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 90)
-                                .frame(width: 350, height: 300)
-                                .foregroundStyle(Color.orange)
-                            Image("Scanner")
-                                .resizable()
-                                .frame(width: 280, height: 280)
-                            
+                }
+                HStack {
+                    Button(action: {
+                        showScanSheet.toggle()
+                        
+                    }, label: {
+                        VStack {
+                            Text("Scan Button:" )
+                                .foregroundStyle(.black)
+                                .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
+                                .padding()
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 90)
+                                    .frame(width: 350, height: 300)
+                                    .foregroundStyle(Color.orange)
+                                Image("Scanner")
+                                    .resizable()
+                                    .frame(width: 280, height: 280)
+                                
+                            }
                         }
-                    }
-                })
-                .sheet(isPresented: $showScanSheet){
+                    })
+                    .sheet(isPresented: $showScanSheet){
                         Text("Scan Student ID")
                             .font(.largeTitle)
                         
@@ -64,41 +65,76 @@ struct IDScannerChoicePage: View {
                                 processScan()
                                 //                                scannedCode = ""
                                 showScanSheet = false
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                    withAnimation{
+                                        showCheckmark = true
+                                    }
+                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                    withAnimation{
+                                        showCheckmark = false
+                                    }
+                                }
                             }
                         
                         Image("Scanner")
-                }
-                Button(action: {
-                    showIDSheet.toggle()
-                }, label: {
-                    VStack {
-                        Text("ID Button:")
-                            .foregroundStyle(Color.black)
-                            .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
-                            .padding()
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 90)
-                                .frame(width: 350, height: 300)
-                                .foregroundStyle(Color.brown)
-                            Image("Keypad")
-                                .resizable()
-                                .frame(width: 300, height: 300)
-                        }
+                        
+                        
                     }
-                })
-                .sheet(isPresented: $showIDSheet){
-                    
-                    Text("Type Student ID")
-                        .font(.largeTitle)
-                    
-                    TextField("Type Student ID here…", text: $typedID)
-                        .textFieldStyle(.roundedBorder)
-                        .frame(width: 400, height: 50)
-                        .onSubmit {
-                            processID(typedID)
-                            typedID = ""
+                    Button(action: {
+                        showIDSheet.toggle()
+                    }, label: {
+                        VStack {
+                            Text("ID Button:")
+                                .foregroundStyle(Color.black)
+                                .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
+                                .padding()
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 90)
+                                    .frame(width: 350, height: 300)
+                                    .foregroundStyle(Color.brown)
+                                Image("Keypad")
+                                    .resizable()
+                                    .frame(width: 300, height: 300)
+                            }
                         }
-                    Image("Keypad")
+                    })
+                    .sheet(isPresented: $showIDSheet){
+                        
+                        Text("Type Student ID")
+                            .font(.largeTitle)
+                        
+                        TextField("Type Student ID here…", text: $typedID)
+                            .textFieldStyle(.roundedBorder)
+                            .frame(width: 400, height: 50)
+                            .onSubmit {
+                                processID(typedID)
+                                typedID = ""
+                                showIDSheet = false
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                    withAnimation{
+                                        showCheckmark = true
+                                    }
+                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                    withAnimation{
+                                        showCheckmark = false
+                                    }
+                                }
+                            }
+                        Image("Keypad")
+                    }
+                }
+                
+            }
+            if showCheckmark == true {
+                ZStack {
+                    Color.white.opacity(0.5).ignoresSafeArea()
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 500))
+                        .foregroundStyle(.green)
+                        .symbolEffect(.bounce, value: showCheckmark)
                 }
             }
         }
