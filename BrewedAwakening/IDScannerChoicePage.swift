@@ -108,16 +108,7 @@ struct IDScannerChoicePage: View {
                             .onSubmit {
                                 processScan()
                                 showScanSheet = false
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                    withAnimation{
-                                        showCheckmark = true
-                                    }
-                                }
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                                    withAnimation{
-                                        showCheckmark = false
-                                    }
-                                }
+                                checkMarkAnimation()
                             }
                         
                         Image("Scanner")
@@ -154,17 +145,7 @@ struct IDScannerChoicePage: View {
                                 processID(typedID)
                                 typedID = ""
                                 showIDSheet = false
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                    withAnimation{
-                                        showCheckmark = true
-                                    }
-                                }
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                                    withAnimation{
-                                        showCheckmark = false
-                                    }
-                                }
+                                checkMarkAnimation()
                             }
                         Image("Keypad")
                     }
@@ -211,6 +192,18 @@ struct IDScannerChoicePage: View {
         let seconds = totalSeconds % 60
         
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+    }
+    func checkMarkAnimation() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            withAnimation{
+                showCheckmark = true
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            withAnimation{
+                showCheckmark = false
+            }
+        }
     }
     
     func removeStudentFromGroup(at offsets: IndexSet) {
