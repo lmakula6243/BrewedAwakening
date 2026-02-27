@@ -22,7 +22,7 @@ struct IDScannerChoicePage: View {
                 .padding()
             VStack {
                 List {
-                    ForEach(myViewModel.students) { student in
+                    ForEach(group.students) { student in
                         HStack {
                             Text(student.firstname)
                             Text(student.lastname)
@@ -53,28 +53,15 @@ struct IDScannerChoicePage: View {
                 .onReceive(myViewModel.$students) { newStudents in
                     guard let foundStudent = newStudents.last else { return }
 
-                    
-                    if !group.students.contains(where: { $0.id == foundStudent.id }) {
-                        group.students.append(foundStudent)
-                    }
-
                     groupsVM.addStudentToGroup(
-                        groupId: group.id,   
+                        groupId: group.id,
                         student: foundStudent
                     )
                     
                     if let index = group.students.firstIndex(where: { $0.id == foundStudent.id }) {
-                            
-
-                            group.students[index].clockInTime = Date()
-                            
-                        } else {
-                            var newStudent = foundStudent
-                            
-                            newStudent.clockInTime = Date()
-                            
-                            group.students.append(newStudent)
-                        }
+                        group.students[index].clockInTime = Date()
+                        
+                    }
                     
                 }
                 
@@ -101,19 +88,19 @@ struct IDScannerChoicePage: View {
                     }
                 })
                 .sheet(isPresented: $showScanSheet){
-                        Text("Scan Student ID")
-                            .font(.largeTitle)
-                        
-                        TextField("Waiting for scan…", text: $scannedCode)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(width: 400, height: 50)
-                        
-                            .onSubmit {
-                                processScan()
-                                showScanSheet = false
-                            }
-                        
-                        Image("Scanner")
+                    Text("Scan Student ID")
+                        .font(.largeTitle)
+                    
+                    TextField("Waiting for scan…", text: $scannedCode)
+                        .textFieldStyle(.roundedBorder)
+                        .frame(width: 400, height: 50)
+                    
+                        .onSubmit {
+                            processScan()
+                            showScanSheet = false
+                        }
+                    
+                    Image("Scanner")
                 }
                 Button(action: {
                     showIDSheet.toggle()
@@ -154,23 +141,23 @@ struct IDScannerChoicePage: View {
     }
     
     
-        func processScan() {
-            
-            if let intScannedCode = Int(scannedCode) {
-                myViewModel.getData(byField: "scannerId", value: intScannedCode)
-            } else {
-                print("Invalid scan")
-            }
-           
+    func processScan() {
+        
+        if let intScannedCode = Int(scannedCode) {
+            myViewModel.getData(byField: "scannerId", value: intScannedCode)
+        } else {
+            print("Invalid scan")
         }
         
-        func processID(_ code: String){
-            guard let intNumCode = Int(typedID) else{
-                print("invaild id#")
-                return
-            }
-            myViewModel.getData(byField: "id", value: intNumCode)
+    }
+    
+    func processID(_ code: String){
+        guard let intNumCode = Int(typedID) else{
+            print("invaild id#")
+            return
         }
+        myViewModel.getData(byField: "id", value: intNumCode)
+    }
     func timeWorked(since start: Date) -> String {
         let totalSeconds = Int(Date().timeIntervalSince(start))
         
@@ -180,7 +167,7 @@ struct IDScannerChoicePage: View {
         
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
     }
-    }
-    
-    
+}
+
+
 
