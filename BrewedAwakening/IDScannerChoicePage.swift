@@ -205,6 +205,21 @@ struct IDScannerChoicePage: View {
             }
         }
     }
+    
+    func removeStudentFromGroup(at offsets: IndexSet) {
+                for index in offsets {
+                    let student = myViewModel.students[index]
+                    
+                    myViewModel.students.remove(at: index)
+                    group.students.removeAll { $0.id == student.id }
+                    
+                    groupsVM.removeStudentFromGroup(
+                        groupId: group.id,
+                        student: student
+                    )
+                }
+            }
+
     }
     
     
