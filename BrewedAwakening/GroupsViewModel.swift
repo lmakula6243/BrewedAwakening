@@ -8,9 +8,12 @@
 import FirebaseDatabase
 import Foundation
 import Combine
+import SwiftUI
 
 class GroupsViewModel: ObservableObject {
     
+    @StateObject var myViewModel: StudentsViewModel = StudentsViewModel()
+    @StateObject var groupsVM: GroupsViewModel = GroupsViewModel()
     
     func createGroup(groupName: String, completion: @escaping (Group) -> Void) {
         let ref = Database.database().reference()
@@ -46,11 +49,11 @@ class GroupsViewModel: ObservableObject {
     }
     
     func removeStudentFromGroup(groupId: String, student: Student) {
-        let ref = Database.database().reference()
-        ref.child("groups")
-            .child(groupId)
-            .child("members")
-            .child(student.skey)
-            .removeValue()
-    }
+            let ref = Database.database().reference()
+            ref.child("groups")
+                .child(groupId)
+                .child("members")
+                .child(student.skey)
+                .removeValue()
+        }
 }
