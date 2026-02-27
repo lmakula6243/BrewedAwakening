@@ -50,6 +50,7 @@ struct IDScannerChoicePage: View {
                         }
                     }
                 }
+//                
                 .onReceive(myViewModel.$students) { newStudents in
                     guard let foundStudent = newStudents.last else { return }
 
