@@ -12,11 +12,22 @@ import Combine
 class GroupsViewModel: ObservableObject {
     
     
-    func createGroup(groupName: String){
+    func createGroup(groupName: String, completion: @escaping (Group) -> Void) {
         let ref = Database.database().reference()
         let groupRef = ref.child("groups").childByAutoId()
-        let data: [String: Any] = ["groupName": groupName]
+
+        let data: [String: Any] = [
+            "groupName": groupName
+        ]
+
         groupRef.setValue(data)
+
+        let group = Group(
+            id: groupRef.key ?? UUID().uuidString,
+            groupName: groupName
+        )
+
+        completion(group)
     }
     
     
