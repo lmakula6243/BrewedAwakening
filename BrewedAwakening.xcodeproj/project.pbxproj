@@ -10,6 +10,7 @@
 		9C80B0182F2BCD7C003880CC /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 9C80B0172F2BCD7C003880CC /* FirebaseCore */; };
 		9C80B01A2F2BCD7C003880CC /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 9C80B0192F2BCD7C003880CC /* FirebaseDatabase */; };
 		9C80B01C2F2BCD7C003880CC /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 9C80B01B2F2BCD7C003880CC /* FirebaseStorage */; };
+		AB134C8A2F52067E00B356B2 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = AB134C892F52067E00B356B2 /* ConfettiSwiftUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 			files = (
 				9C80B01A2F2BCD7C003880CC /* FirebaseDatabase in Frameworks */,
 				9C80B0182F2BCD7C003880CC /* FirebaseCore in Frameworks */,
+				AB134C8A2F52067E00B356B2 /* ConfettiSwiftUI in Frameworks */,
 				9C80B01C2F2BCD7C003880CC /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -77,6 +79,7 @@
 				9C80B0172F2BCD7C003880CC /* FirebaseCore */,
 				9C80B0192F2BCD7C003880CC /* FirebaseDatabase */,
 				9C80B01B2F2BCD7C003880CC /* FirebaseStorage */,
+				AB134C892F52067E00B356B2 /* ConfettiSwiftUI */,
 			);
 			productName = BrewedAwakening;
 			productReference = ABCB8E842F1AA89100B22F90 /* BrewedAwakening.app */;
@@ -108,6 +111,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				9C80B0162F2BCD7C003880CC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				AB134C882F52067E00B356B2 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = ABCB8E852F1AA89100B22F90 /* Products */;
@@ -353,6 +357,14 @@
 				minimumVersion = 12.8.0;
 			};
 		};
+		AB134C882F52067E00B356B2 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/simibac/ConfettiSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -370,6 +382,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9C80B0162F2BCD7C003880CC /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		AB134C892F52067E00B356B2 /* ConfettiSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AB134C882F52067E00B356B2 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */;
+			productName = ConfettiSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

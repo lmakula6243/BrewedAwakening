@@ -2,6 +2,7 @@ import SwiftUI
 import FirebaseDatabase
 import FirebaseCore
 import Combine
+import ConfettiSwiftUI
 
 struct IDScannerChoicePage: View {
     @State var scannedCode = ""
@@ -14,6 +15,7 @@ struct IDScannerChoicePage: View {
     @State var nameOfGroup: String = ""
     @Binding var group: Group
     @State var showCheckmark = false
+    @State var confettiCounter = 0
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     var body: some View {
         ZStack {
@@ -153,15 +155,24 @@ struct IDScannerChoicePage: View {
                 
             }
             if showCheckmark == true {
+                
                 ZStack {
-                    Color.white.opacity(0.5).ignoresSafeArea()
+                    Color.black.opacity(0.5).ignoresSafeArea()
                     Image(systemName: "checkmark.circle.fill")
                         .font(.system(size: 500))
                         .foregroundStyle(.green)
                         .symbolEffect(.bounce, value: showCheckmark)
                 }
             }
-        }.onReceive(timer) { _ in
+        }
+        .confettiCannon(
+            trigger: $confettiCounter,
+            num: 70,
+            confettiSize: 18,
+            radius: 400
+            
+        )
+        .onReceive(timer) { _ in
             
         }
     }
@@ -199,11 +210,13 @@ struct IDScannerChoicePage: View {
                 showCheckmark = true
             }
         }
+        confettiCounter += 1
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             withAnimation{
                 showCheckmark = false
             }
         }
+        
     }
     
     func removeStudentFromGroup(at offsets: IndexSet) {
