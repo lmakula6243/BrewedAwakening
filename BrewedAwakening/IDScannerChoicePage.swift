@@ -29,15 +29,30 @@ struct IDScannerChoicePage: View {
                     List {
                         ForEach(myViewModel.students) { student in
                             HStack {
-                                Text(student.firstname)
-                                Text(student.lastname)
-                                Text("Scanner ID: \(student.scannerId)")
-                                Text("Student ID: \(student.id)")
+                                VStack(alignment: .leading) {
+                                    Text("\(student.firstname) \(student.lastname)")
+                                        .font(.headline)
+
+                                    Text("Scanner ID: \(student.scannerId)")
+                                    Text("Student ID: \(student.id)")
+                                }
+
+                                Spacer()
+
                                 if let start = clockInTimes[student.id] {
-                                            Text(timeWorked(since: start))
-                                                .font(.headline)
-                                                .monospacedDigit()
-                                        }
+                                    VStack(alignment: .trailing) {
+
+                                        Text("Signed In:")
+                                            .font(.caption)
+
+                                        Text(formattedClockInTime(start))
+                                            .font(.subheadline)
+
+                                        Text(timeWorked(since: start))
+                                            .font(.headline)
+                                            .monospacedDigit()
+                                    }
+                                }
                             }
                             .listRowBackground(Color(.orange))
                         }
@@ -197,6 +212,11 @@ struct IDScannerChoicePage: View {
         let seconds = totalSeconds % 60
         
         return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+    }
+    func formattedClockInTime(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
     }
     func checkMarkAnimation() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
