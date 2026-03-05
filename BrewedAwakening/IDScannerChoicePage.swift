@@ -25,7 +25,7 @@ struct IDScannerChoicePage: View {
                     .padding()
                 VStack {
                     List {
-                        ForEach(myViewModel.students) { student in
+                        ForEach(group.students, id: \.id) { student in
                             HStack {
                                 Text(student.firstname)
                                 Text(student.lastname)
@@ -38,10 +38,6 @@ struct IDScannerChoicePage: View {
                             for index in indexSet {
                                 let student = group.students[index]
                                 
-                                // Remove locally
-                                group.students.remove(at: index)
-                                
-                                // Remove from Firebase
                                 groupsVM.removeStudentFromGroup(
                                     groupId: group.id,
                                     student: student
