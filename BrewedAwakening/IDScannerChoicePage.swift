@@ -17,6 +17,8 @@ struct IDScannerChoicePage: View {
     @State var showCheckmark = false
     @State var confettiCounter = 0
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State var clockInTimes: [Int: Date] = [:]
+    @State var currentTime = Date()
     var body: some View {
         ZStack {
             VStack {
@@ -31,6 +33,11 @@ struct IDScannerChoicePage: View {
                                 Text(student.lastname)
                                 Text("Scanner ID: \(student.scannerId)")
                                 Text("Student ID: \(student.id)")
+                                if let start = clockInTimes[student.id] {
+                                            Text(timeWorked(since: start))
+                                                .font(.headline)
+                                                .monospacedDigit()
+                                        }
                             }
                             .listRowBackground(Color(.orange))
                         }
@@ -53,29 +60,16 @@ struct IDScannerChoicePage: View {
                 .onReceive(myViewModel.$students) { newStudents in
                     guard let foundStudent = newStudents.last else { return }
 
-                    
                     if !group.students.contains(where: { $0.id == foundStudent.id }) {
                         group.students.append(foundStudent)
                     }
 
+                    clockInTimes[foundStudent.id] = Date()
+
                     groupsVM.addStudentToGroup(
-                        groupId: group.id,   
+                        groupId: group.id,
                         student: foundStudent
                     )
-                    
-                    if let index = group.students.firstIndex(where: { $0.id == foundStudent.id }) {
-                            
-
-                            group.students[index].clockInTime = Date()
-                            
-                        } else {
-                            var newStudent = foundStudent
-                            
-                            newStudent.clockInTime = Date()
-                            
-                            group.students.append(newStudent)
-                        }
-                    
                 }
                 
                 HStack {
@@ -173,7 +167,7 @@ struct IDScannerChoicePage: View {
             
         )
         .onReceive(timer) { _ in
-            
+            currentTime = Date()
         }
     }
     
