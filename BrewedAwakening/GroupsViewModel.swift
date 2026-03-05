@@ -17,6 +17,7 @@ class GroupsViewModel: ObservableObject {
     @Published var groups: [Group] = []
     
     init() {
+        print("Fetching groups...")
         fetchGroups()
     }
     
@@ -25,6 +26,8 @@ class GroupsViewModel: ObservableObject {
         let ref = Database.database().reference().child("groups")
         
         ref.observe(.value, with: { (snapshot: DataSnapshot) in
+            print("SNAPSHOT VALUE:")
+            print(snapshot.value as Any)
             
             var loadedGroups: [Group] = []
             

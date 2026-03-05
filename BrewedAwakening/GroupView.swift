@@ -32,8 +32,11 @@ struct GroupView: View {
             ZStack{
                 
                 
+                
                 List {
-                    ForEach($groups) { $group in
+                    
+                    ForEach(GroupsVM.groups) { group in
+                        Text(group.groupName)
                         Button {
                             selectedPage = "home"
                         } label: {
@@ -42,9 +45,20 @@ struct GroupView: View {
                                 .foregroundStyle(.black)
                         }
                     }
-                    .listRowBackground(Color(.systemGray3))
                 }
                 
+                //                    ForEach($groups) { $group in
+                //                        Button {
+                //                            selectedPage = "home"
+                //                        } label: {
+                //                            Text(group.groupName)
+                //                                .font(Font.custom("Hiragino Kaku Gothic StdN", size: 15))
+                //                                .foregroundStyle(.black)
+                //                        }
+                //                    }
+                //                    .listRowBackground(Color(.systemGray3))
+                //                }
+                //
                 Button(action: {
                     showAddGroupSheet.toggle()
                 }, label: {
