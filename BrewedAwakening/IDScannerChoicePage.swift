@@ -10,8 +10,8 @@ struct IDScannerChoicePage: View {
     @State var showScanSheet = false
     @State var typedID = ""
     @State var showIDSheet = false
-    @StateObject var myViewModel: StudentsViewModel = StudentsViewModel()
-    @StateObject var groupsVM: GroupsViewModel = GroupsViewModel()
+    @ObservedObject var myViewModel: StudentsViewModel = StudentsViewModel()
+    @ObservedObject var groupsVM: GroupsViewModel = GroupsViewModel()
     @State var nameOfGroup: String = ""
     @Binding var group: Group
     @State var showCheckmark = false
@@ -27,14 +27,14 @@ struct IDScannerChoicePage: View {
                     .padding()
                 VStack {
                     List {
-                        ForEach(group.students, id: \.id) { student in
+                        ForEach(group.students) { student in
                             HStack {
                                 VStack(alignment: .leading) {
                                     Text("\(student.firstname) \(student.lastname)")
                                         .font(.headline)
 
                                     Text("Scanner ID: \(student.scannerId)")
-                                    Text("Student ID: \(student.id)")
+                                    Text("Student ID: \(student.idnum)")
                                 }
 
                                 Spacer()
@@ -71,7 +71,7 @@ struct IDScannerChoicePage: View {
                 .onReceive(myViewModel.$students) { newStudents in
                     guard let foundStudent = newStudents.last else { return }
 
-                    if !group.students.contains(where: { $0.id == foundStudent.id }) {
+                    if !group.students.contains(where: { $0.idnum == foundStudent.idnum }) {
                         group.students.append(foundStudent)
                     }
 
