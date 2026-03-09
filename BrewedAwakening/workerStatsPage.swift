@@ -12,6 +12,8 @@ struct workerStatsPage: View {
     @Binding var groups: [Group]
     @State var selectedMenu: String = "Groups"
     @State var searchText = ""
+    @State var selectedGroup: Group?
+    @State var payPerHour : Int = 0
     
     var filteredGroups: [Group] {
         groups
@@ -42,34 +44,51 @@ struct workerStatsPage: View {
                        .navigationTitle("Menu")
 
         } detail: {
+            NavigationStack{
+                if selectedMenu == "Groups" {
+                        if let group = selectedGroup {
 
-            if selectedMenu == "Groups" {
+                            VStack {
+                                Button("← Back to Groups") {
+                                    selectedGroup = nil
+                                }
+                                .padding()
 
-                List(filteredGroups) { group in
-                    NavigationLink {
-                        GroupStudentsView()
-                    } label: {
-                        Text(group.groupName)
-                    }
-                }
-                            .navigationTitle("Groups")
+                                GroupStudentsView(group: group)
+                            }
+                            .navigationTitle(group.groupName)
+
+                        } else {
+
+                            List(filteredGroups) { group in
+                                Button {
+                                    selectedGroup = group
+                                } label: {
+                                    Text(group.groupName)
+                                }
+                            }
                             .searchable(text: $searchText, prompt: "Search groups")
+                            .navigationTitle("Groups")
 
-                        } else if selectedMenu == "Students" {
-                            Text("students search here")
-
-                        } else if selectedMenu == "Pay" {
-
-                            Text("Pay calculation goes here")
-                                .font(.largeTitle)
-                                .navigationTitle("Calculate Pay")
-
-                        } else if selectedMenu == "Groups"{
-                            Text("Groups go here")
-                        }else {
-
-                            Text("Select a menu option")
                         }
+
+                    
+                } else if selectedMenu == "Students" {
+                    Text("students search here")
+                    
+                } else if selectedMenu == "Pay" {
+                    
+                    Text("Pay calculation goes here")
+                        .font(.largeTitle)
+                        .navigationTitle("Calculate Pay")
+                    
+                } else if selectedMenu == "Groups"{
+                    Text("Groups go here")
+                }else {
+                    
+                    Text("Select a menu option")
+                }
+            }
         }
     }
     

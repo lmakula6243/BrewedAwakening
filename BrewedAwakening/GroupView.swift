@@ -15,6 +15,7 @@ struct GroupView: View {
     @State var enteredNewGroup: String = ""
     @Binding var groups: [Group]
     @Binding var selectedPage: String
+   // @Binding var group: Group
     var body: some View {
         VStack {
             ZStack{
@@ -35,53 +36,61 @@ struct GroupView: View {
                 
                 List {
                     
-                    ForEach(GroupsVM.groups) { group in
-                        //Text(group.groupName)
-                        Button {
-                            selectedPage = "home"
-                        } label: {
+                    ForEach($GroupsVM.groups) { $group in
+                        
+                        NavigationLink( destination: IDScannerChoicePage(group: $group)){
                             Text(group.groupName)
                                 .font(Font.custom("Hiragino Kaku Gothic StdN", size: 15))
                                 .foregroundStyle(.black)
                         }
+                        
+                        //                        Button {
+                        //                            selectedPage = "home"
+                        //
+                        //                        } label: {
+                        //                            Text(group.groupName)
+                        //                                .font(Font.custom("Hiragino Kaku Gothic StdN", size: 15))
+                        //                                .foregroundStyle(.black)
+                        //                        }
+                        //                    }
+                        //                    .listRowBackground(Color(.systemGray3))
                     }
-                    .listRowBackground(Color(.systemGray3))
-                }
-                
-                
-                Button(action: {
-                    showAddGroupSheet.toggle()
-                }, label: {
-                    Text("Don't see your group?")
-                        .font(.headline)
-                        .foregroundStyle(.black)
-                })
-                .sheet(isPresented: $showAddGroupSheet) {
-                    Text("Name Your Group")
-                        .font(Font.custom("Hiragino Kaku Gothic StdN", size: 35))
-                    Text("(Ex: Mr. Smith)")
-                        .font(Font.custom("Hiragino Kaku Gothic StdN", size: 15))
-                    TextField("Enter Group Name Here", text: $enteredNewGroup)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    
+                    
                     Button(action: {
                         showAddGroupSheet.toggle()
-                        GroupsVM.createGroup(groupName: enteredNewGroup) { newGroup in
-                            groups.append(newGroup)
-                        }
-                        enteredNewGroup = ""
                     }, label: {
-                        ZStack{
-                            RoundedRectangle(cornerRadius: 5)
-                                .foregroundStyle(.orange)
-                                .frame(width: 100, height: 40)
-                            Text("Done")
-                                .foregroundStyle(.black)
-                                .font(Font.custom("Hiragino Kaku Gothic StdN", size: 15))
-                        }
+                        Text("Don't see your group?")
+                            .font(.headline)
+                            .foregroundStyle(.black)
                     })
+                    .sheet(isPresented: $showAddGroupSheet) {
+                        Text("Name Your Group")
+                            .font(Font.custom("Hiragino Kaku Gothic StdN", size: 35))
+                        Text("(Ex: Mr. Smith)")
+                            .font(Font.custom("Hiragino Kaku Gothic StdN", size: 15))
+                        TextField("Enter Group Name Here", text: $enteredNewGroup)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        Button(action: {
+                            showAddGroupSheet.toggle()
+                            GroupsVM.createGroup(groupName: enteredNewGroup) { newGroup in
+                                groups.append(newGroup)
+                            }
+                            enteredNewGroup = ""
+                        }, label: {
+                            ZStack{
+                                RoundedRectangle(cornerRadius: 5)
+                                    .foregroundStyle(.orange)
+                                    .frame(width: 100, height: 40)
+                                Text("Done")
+                                    .foregroundStyle(.black)
+                                    .font(Font.custom("Hiragino Kaku Gothic StdN", size: 15))
+                            }
+                        })
+                    }
                 }
             }
         }
+        
     }
-    
 }

@@ -7,9 +7,16 @@
 import SwiftUI
 
 struct GroupStudentsView: View {
+    var group: Group
     var body: some View {
-        VStack{
-            
+        List(group.students) { student in
+            VStack(alignment: .leading) {
+                Text(student.firstname)
+                Text(student.lastname)
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+            }
         }
+        .navigationTitle(group.groupName)
     }
 }
