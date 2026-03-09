@@ -13,6 +13,8 @@ struct workerStatsPage: View {
     @State var selectedMenu: String = "Groups"
     @State var searchText = ""
     @State var selectedGroup: Group?
+    @State var payPerHour : Int = 0
+    
     var filteredGroups: [Group] {
         groups
             .filter {
