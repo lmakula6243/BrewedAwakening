@@ -36,7 +36,7 @@ struct GroupView: View {
                 List {
                     
                     ForEach(GroupsVM.groups) { group in
-                        Text(group.groupName)
+                        //Text(group.groupName)
                         Button {
                             selectedPage = "home"
                         } label: {
