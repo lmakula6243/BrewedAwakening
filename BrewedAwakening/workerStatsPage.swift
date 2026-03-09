@@ -45,9 +45,13 @@ struct workerStatsPage: View {
 
             if selectedMenu == "Groups" {
 
-                            List(filteredGroups) { group in
-                                Text(group.groupName)
-                            }
+                List(filteredGroups) { group in
+                    NavigationLink {
+                        GroupStudentsView()
+                    } label: {
+                        Text(group.groupName)
+                    }
+                }
                             .navigationTitle("Groups")
                             .searchable(text: $searchText, prompt: "Search groups")
 
