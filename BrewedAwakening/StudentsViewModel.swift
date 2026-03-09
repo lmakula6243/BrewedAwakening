@@ -24,9 +24,9 @@ class StudentsViewModel: ObservableObject {
                         guard let data = item as? [String: Any] else { continue }
                         
                         let student = Student(
-                            skey: UUID().uuidString,
+                            id: UUID().uuidString,
                             firstname: data["firstName"] as? String ?? "",
-                            id: data["id"] as? Int ?? 0,
+                            idnum: data["id"] as? Int ?? 0,
                             lastname: data["lastName"] as? String ?? "",
                             scannerId: data["scannerId"] as? Int ?? 0
                         )
@@ -36,9 +36,9 @@ class StudentsViewModel: ObservableObject {
                     //Used when the data firebase returns a dictonary keyed by the index
                     for (key, data) in dict {
                         let student = Student(
-                            skey: key,
+                            id: key,
                             firstname: data["firstName"] as? String ?? "",
-                            id: data["id"] as? Int ?? 0,
+                            idnum: data["id"] as? Int ?? 0,
                             lastname: data["lastName"] as? String ?? "",
                             scannerId: data["scannerId"] as? Int ?? 0
                         )
@@ -51,7 +51,7 @@ class StudentsViewModel: ObservableObject {
                 
                 DispatchQueue.main.async {
                     for s in foundStudents {
-                        if !self.students.contains(where: { $0.id == s.id }) {
+                        if !self.students.contains(where: { $0.idnum == s.idnum }) {
                             self.students.append(s)
                         }
                     }

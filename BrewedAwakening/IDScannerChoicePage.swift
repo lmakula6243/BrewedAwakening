@@ -39,7 +39,7 @@ struct IDScannerChoicePage: View {
 
                                 Spacer()
 
-                                if let start = clockInTimes[student.id] {
+                                if let start = clockInTimes[student.idnum] {
                                     VStack(alignment: .trailing) {
 
                                         Text("Signed In:")
@@ -75,7 +75,7 @@ struct IDScannerChoicePage: View {
                         group.students.append(foundStudent)
                     }
 
-                    clockInTimes[foundStudent.id] = Date()
+                    clockInTimes[foundStudent.idnum] = Date()
 
                     groupsVM.addStudentToGroup(
                         groupId: group.id,

@@ -26,8 +26,6 @@ class GroupsViewModel: ObservableObject {
         let ref = Database.database().reference().child("groups")
         
         ref.observe(.value, with: { (snapshot: DataSnapshot) in
-            print("SNAPSHOT VALUE:")
-            print(snapshot.value as Any)
             
             var loadedGroups: [Group] = []
             
@@ -46,14 +44,17 @@ class GroupsViewModel: ObservableObject {
                     for (key, data) in members {
                         
                         let student = Student(
-                            skey: key,
+                            id: key,
                             firstname: data["firstName"] as? String ?? "",
-                            id: data["id"] as? Int ?? 0,
+                            idnum: data["id"] as? Int ?? 0,
                             lastname: data["lastName"] as? String ?? "",
                             scannerId: data["scannerId"] as? Int ?? 0
                         )
                         
                         students.append(student)
+                        
+                        print("STUDENT:")
+                        print(student.firstname)
                     }
                 }
                 
@@ -97,11 +98,11 @@ class GroupsViewModel: ObservableObject {
             ref.child("groups")
                 .child(groupId)
                 .child("members")
-                .child(student.skey)
+                .child(student.id)
                 .setValue([
                     "firstName": student.firstname,
                     "lastName": student.lastname,
-                    "id": student.id,
+                    "id": student.idnum,
                     "scannerId": student.scannerId
                 ])
         }
@@ -111,7 +112,7 @@ class GroupsViewModel: ObservableObject {
             ref.child("groups")
                 .child(groupId)
                 .child("members")
-                .child(student.skey)
+                .child(student.id)
                 .removeValue()
         }
     }
