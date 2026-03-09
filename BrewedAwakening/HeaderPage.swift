@@ -10,6 +10,7 @@ import FirebaseCore
 struct HeaderPage: View {
     @Binding var selectedPage: String
     @State var groups: [Group] = []
+    @State var showLockedSheet = false
     var body: some View {
         VStack(spacing: 0) {
                 ZStack {
@@ -41,6 +42,17 @@ struct HeaderPage: View {
                         Spacer()
                             .padding(.horizontal)
                             .frame(maxWidth: .infinity)
+                        
+                        Button {
+                            showLockedSheet.toggle()
+                        } label: {
+                            Image(systemName: "lock.fill")
+                                .resizable()
+                                .frame(width: 40, height: 50)
+                                .padding()
+                                .foregroundStyle(Color(red: 0.35, green: 0.22, blue: 0.12))
+                        }
+                        
                         
                         Button {
                             selectedPage = "stats"
