@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct Student: Identifiable{
-    var skey: String
+    let id: String
     var firstname: String
-    var id: Int
+    var idnum: Int
     var lastname: String
     var scannerId: Int
     var clockInTime: Date?
