@@ -16,6 +16,8 @@ struct MyApp: App {
     @State var path = NavigationPath()
     @State var selectedPage = "groups"
     @State var selectedGroup: Group? = nil
+    @State var showLockedSheet = false
+    @State var password: String = ""
     init(){
         FirebaseApp.configure()
         print("firebase is configured")
@@ -24,7 +26,7 @@ struct MyApp: App {
         WindowGroup {
             NavigationStack(path: $path) {
                 VStack(spacing: 0) {
-                    HeaderPage(selectedPage: $selectedPage)
+                    HeaderPage(selectedPage: $selectedPage, showLockedSheet: $showLockedSheet)
                         .frame(height: 150)
                     ZStack {
                     if selectedPage == "home" {
@@ -44,6 +46,10 @@ struct MyApp: App {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .sheet(isPresented: $showLockedSheet) {
+                    TextField("Enter the password to unlock", text: $password)
+            }
+            
             }
         }
         
