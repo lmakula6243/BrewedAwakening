@@ -9,6 +9,7 @@ import SwiftUI
 struct GroupStudentsView: View {
     var group: Group
     var body: some View {
+        Text("Students in group: \(group.students.count)")
         List(group.students) { student in
             VStack(alignment: .leading) {
                 Text(student.firstname)
@@ -18,5 +19,6 @@ struct GroupStudentsView: View {
             }
         }
         .navigationTitle(group.groupName)
+        
     }
 }

@@ -20,6 +20,7 @@ struct MyApp: App {
     @State var password: String = ""
     @ObservedObject var groupsVM: GroupsViewModel = GroupsViewModel()
     
+    @State var buttonName = true
     init(){
         FirebaseApp.configure()
         print("firebase is configured")
@@ -49,24 +50,7 @@ struct MyApp: App {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .sheet(isPresented: $showLockedSheet) {
-                    Text("Password Required to Unlock Screen")
-                        .font(Font.largeTitle.bold())
-                        .frame(alignment: .center)
-                        .padding()
-                    Image(systemName: "lock.fill")
-                        .resizable()
-                        .frame(width: 60, height: 70)
-                    SecureField("Enter the password to unlock", text: $password)
-                        .padding()
-                        .onSubmit {
-                            if password == "214214" {
-                                showLockedSheet = false
-                            }
-                            password = ""
-                        }
-                        .padding()
-                        .interactiveDismissDisabled(true)
-                        .textFieldStyle(.roundedBorder)
+                    lockPage()
             }
             
             }
@@ -76,7 +60,35 @@ struct MyApp: App {
     
     
     
-    
+func lockPage() -> some View {
+    VStack(spacing: 20) {
+        Text("Password Required to Unlock Screen")
+            .font(Font.largeTitle.bold())
+            .frame(alignment: .center)
+            .padding()
+        Image(systemName: buttonName ? "lock.fill" : "lock.open.fill")
+            .resizable()
+            .frame(width: 60, height: 70)
+        SecureField("Enter the password to unlock", text: $password)
+            .padding()
+            .onSubmit {
+                if password == "214214" {
+                    withAnimation {
+                        buttonName = false
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                        showLockedSheet = false
+                        buttonName = true
+                    }
+                }
+                password = ""
+            }
+            .padding()
+            .interactiveDismissDisabled(true)
+            .textFieldStyle(.roundedBorder)
+    }
+    }
+
     
     
     
