@@ -10,11 +10,12 @@ import FirebaseDatabase
 
 
 struct GroupView: View {
-    @StateObject var GroupsVM: GroupsViewModel = GroupsViewModel()
+    @ObservedObject var groupsVM: GroupsViewModel = GroupsViewModel()
     @State var showAddGroupSheet = false
     @State var enteredNewGroup: String = ""
     @Binding var groups: [Group]
-    @Binding var selectedPage: String
+    @State var selectedPage: String
+    @State var showLockedSheet = false
    // @Binding var group: Group
     var body: some View {
         VStack {
@@ -32,11 +33,15 @@ struct GroupView: View {
                 .font(.custom("Snell Roundhand Bold", size: 30))
             ZStack{
                 
-                
+                HeaderPage(
+                        selectedPage: $selectedPage,
+                        groups: $groupsVM.groups,
+                        showLockedSheet: $showLockedSheet
+                    )
                 
                 List {
                     
-                    ForEach($GroupsVM.groups) { $group in
+                    ForEach($groupsVM.groups) { $group in
                         
                         NavigationLink( destination: IDScannerChoicePage(group: $group)){
                             Text(group.groupName)
@@ -73,7 +78,7 @@ struct GroupView: View {
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                         Button(action: {
                             showAddGroupSheet.toggle()
-                            GroupsVM.createGroup(groupName: enteredNewGroup) { newGroup in
+                            groupsVM.createGroup(groupName: enteredNewGroup) { newGroup in
                                 groups.append(newGroup)
                             }
                             enteredNewGroup = ""

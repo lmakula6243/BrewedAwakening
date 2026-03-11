@@ -9,7 +9,7 @@ import FirebaseCore
 
 struct HeaderPage: View {
     @Binding var selectedPage: String
-    @State var groups: [Group] = []
+    @Binding var groups: [Group] 
     @Binding var showLockedSheet: Bool
     var body: some View {
         VStack(spacing: 0) {

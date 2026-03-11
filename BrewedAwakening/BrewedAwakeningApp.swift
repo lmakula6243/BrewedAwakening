@@ -18,6 +18,8 @@ struct MyApp: App {
     @State var selectedGroup: Group? = nil
     @State var showLockedSheet = false
     @State var password: String = ""
+    @ObservedObject var groupsVM: GroupsViewModel = GroupsViewModel()
+    
     init(){
         FirebaseApp.configure()
         print("firebase is configured")
@@ -26,7 +28,7 @@ struct MyApp: App {
         WindowGroup {
             NavigationStack(path: $path) {
                 VStack(spacing: 0) {
-                    HeaderPage(selectedPage: $selectedPage, showLockedSheet: $showLockedSheet)
+                    HeaderPage(selectedPage: $selectedPage, groups: $groupsVM.groups, showLockedSheet: $showLockedSheet)
                         .frame(height: 150)
                     ZStack {
                     if selectedPage == "home" {
@@ -38,7 +40,7 @@ struct MyApp: App {
                                     .foregroundColor(.gray)
                                         }
                     } else if selectedPage == "groups" {
-                        GroupView(groups: $group, selectedPage: $selectedPage)
+                        GroupView(groups: $group, selectedPage: selectedPage)
                     } else if selectedPage == "stats" {
                         workerStatsPage(groups: $group)
                     }
