@@ -18,36 +18,21 @@ class StudentsViewModel: ObservableObject {
                 
                 var foundStudents: [Student] = []
                 
-                if let rawArray = snapshot.value as? [Any] {
-                    //  Used when firebase returns an array that can possibly have nulls (missing index of the array but student still matched by the id/ scanner id)
-                    for item in rawArray {
-                        guard let data = item as? [String: Any] else { continue }
-                        
-                        let student = Student(
-                            id: UUID().uuidString,
-                            firstname: data["firstName"] as? String ?? "",
-                            idnum: data["id"] as? Int ?? 0,
-                            lastname: data["lastName"] as? String ?? "",
-                            scannerId: data["scannerId"] as? Int ?? 0
-                        )
-                        foundStudents.append(student)
-                    }
-                } else if let dict = snapshot.value as? [String: [String: Any]] {
-                    //Used when the data firebase returns a dictonary keyed by the index
-                    for (key, data) in dict {
-                        let student = Student(
-                            id: key,
-                            firstname: data["firstName"] as? String ?? "",
-                            idnum: data["id"] as? Int ?? 0,
-                            lastname: data["lastName"] as? String ?? "",
-                            scannerId: data["scannerId"] as? Int ?? 0
-                        )
-                        foundStudents.append(student)
-                    }
-                } else {
-                    print("No students found")
-                    return
+                for child in snapshot.children {
+                    guard let snap = child as? DataSnapshot,
+                          let data = snap.value as? [String: Any] else { continue }
+                    
+                    let student = Student(
+                        id: snap.key,
+                        firstname: data["firstName"] as? String ?? "",
+                        idnum: data["id"] as? Int ?? 0,
+                        lastname: data["lastName"] as? String ?? "",
+                        scannerId: data["scannerId"] as? Int ?? 0
+                    )
+                    
+                    foundStudents.append(student)
                 }
+                
                 
                 DispatchQueue.main.async {
                     for s in foundStudents {
