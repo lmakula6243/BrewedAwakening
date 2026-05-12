@@ -13,7 +13,7 @@ class StudentsViewModel: ObservableObject {
             .queryEqual(toValue: value)
             .observeSingleEvent(of: .value, with: { snapshot in
                 
-                print("FULL SNAPSHOT:")
+              
                 print(snapshot.value as Any)
                 
                 var foundStudents: [Student] = []

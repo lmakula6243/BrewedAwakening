@@ -15,9 +15,10 @@ struct GroupView: View {
     @State var showAddGroupSheet = false
     @State var enteredNewGroup: String = ""
     @Binding var groups: [Group]
-    @State var selectedPage: String
+    @Binding var selectedPage: String
     @State var showLockedSheet = false
-   // @Binding var group: Group
+    @Binding var selectedGroup: Group?
+    // @Binding var group: Group
     var body: some View {
         VStack {
             ZStack{
@@ -33,29 +34,20 @@ struct GroupView: View {
             Text("Start a working session...")
                 .font(.custom("Snell Roundhand Bold", size: 30))
             ZStack{
-                
-                HeaderPage(
-                        selectedPage: $selectedPage,
-                        groups: $groupsVM.groups,
-                        showLockedSheet: $showLockedSheet
-                    )
-                
                 List {
-                    
-                    ForEach($groupsVM.groups) { $group in
-                        
-                        NavigationLink(
-                            destination: IDScannerChoicePage(
-                                myViewModel: myViewModel,
-                                groupsVM: groupsVM,
-                                group: $group
-                            )
-                        ){
+                    ForEach(groupsVM.groups) { group in
+                       
+                        Button {
+                            print("Tapped:", group.groupName)
+                            selectedGroup = group
+                            selectedPage = "home"
+                        } label: {
                             Text(group.groupName)
                                 .font(Font.custom("Hiragino Kaku Gothic StdN", size: 15))
                                 .foregroundStyle(.black)
                         }
-                        
+                    }
+                }
                         //                        Button {
                         //                            selectedPage = "home"
                         //
@@ -113,5 +105,5 @@ struct GroupView: View {
             }
         }
         
-    }
-}
+    
+

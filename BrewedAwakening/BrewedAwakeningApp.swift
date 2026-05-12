@@ -29,91 +29,98 @@ struct MyApp: App {
     @State var buttonName = true
     
     
+    
     var body: some Scene {
         WindowGroup {
             NavigationStack(path: $path) {
                 VStack(spacing: 0) {
-
+                    
                     HeaderPage(
                         selectedPage: $selectedPage,
                         groups: $groupsVM.groups,
                         showLockedSheet: $showLockedSheet
                     )
                     .frame(height: 150)
-
+                    
                     ZStack {
-                        if selectedPage == "home" {
-
-                            if let firstGroup = groupsVM.groups.first {
-                                IDScannerChoicePage(
-                                    myViewModel: myViewModel,
-                                    groupsVM: groupsVM,
-                                    group: $groupsVM.groups[0]
-                                )
-                            } else {
-                                Text("No group available")
-                                    .font(.title)
-                                    .foregroundColor(.gray)
-                            }
-
-                        } else if selectedPage == "groups" {
-
+                        
+                        if selectedPage == "groups" {
+                            
                             GroupView(
                                 myViewModel: myViewModel,
                                 groupsVM: groupsVM,
                                 groups: $groupsVM.groups,
-                                selectedPage: selectedPage
+                                selectedPage: $selectedPage,
+                                selectedGroup: $selectedGroup
                             )
-
+                            
+                        } else if selectedPage == "home" {
+                            
+                            if let group = selectedGroup {
+                                
+                                IDScannerChoicePage(
+                                    myViewModel: myViewModel,
+                                    groupsVM: groupsVM,
+                                    group: Binding(
+                                        get: { group },
+                                        set: { selectedGroup = $0 }
+                                    )
+                                )
+                                
+                            } else {
+                                Text("Select a group first")
+                            }
+                            
                         } else if selectedPage == "stats" {
-
-                            workerStatsPage(groups: $groupsVM.groups)
-
+                            
+                            workerStatsPage(
+                                groups: $groupsVM.groups,
+                                myViewModel: myViewModel,
+                                groupsVM: groupsVM
+                            )
                         }
                     }
+                    .sheet(isPresented: $showLockedSheet) {
+                        lockPage()
+                    }
                 }
-                .sheet(isPresented: $showLockedSheet) {
-                    lockPage()
-                }
+                .environmentObject(groupsVM)
             }
-            .environmentObject(groupsVM)   
+            
         }
         
-        
     }
-    
-    
-    
-    func lockPage() -> some View {
-        VStack(spacing: 20) {
-            Text("Password Required to Unlock Screen")
-                .font(Font.largeTitle.bold())
-                .frame(alignment: .center)
-                .padding()
-            Image(systemName: buttonName ? "lock.fill" : "lock.open.fill")
-                .resizable()
-                .frame(width: 60, height: 70)
-            SecureField("Enter the password to unlock", text: $password)
-                .padding()
-                .onSubmit {
-                    if password == "214214" {
-                        withAnimation {
-                            buttonName = false
+        
+        func lockPage() -> some View {
+            VStack(spacing: 20) {
+                Text("Password Required to Unlock Screen")
+                    .font(Font.largeTitle.bold())
+                    .frame(alignment: .center)
+                    .padding()
+                Image(systemName: buttonName ? "lock.fill" : "lock.open.fill")
+                    .resizable()
+                    .frame(width: 60, height: 70)
+                SecureField("Enter the password to unlock", text: $password)
+                    .padding()
+                    .onSubmit {
+                        if password == "214214" {
+                            withAnimation {
+                                buttonName = false
+                            }
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                                showLockedSheet = false
+                                buttonName = true
+                            }
                         }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
-                            showLockedSheet = false
-                            buttonName = true
-                        }
+                        password = ""
                     }
-                    password = ""
-                }
-                .padding()
-                .interactiveDismissDisabled(true)
-                .textFieldStyle(.roundedBorder)
+                    .padding()
+                    .interactiveDismissDisabled(true)
+                    .textFieldStyle(.roundedBorder)
+            }
         }
-    }
-    
-    
-    
     
 }
+
+
+

@@ -15,9 +15,8 @@ struct workerStatsPage: View {
     @State var searchText = ""
     @State var selectedGroup: Group?
     @State var payPerHour : Int = 0
-    @ObservedObject var myViewModel: StudentsViewModel = StudentsViewModel()
-    @ObservedObject var GroupsVM: GroupsViewModel = GroupsViewModel()
-    
+    @ObservedObject var myViewModel: StudentsViewModel
+    @ObservedObject var groupsVM: GroupsViewModel
 //    var filteredGroups: [Group] {
 //        groups
 //            .filter {
@@ -27,7 +26,7 @@ struct workerStatsPage: View {
 //            .sorted { $0.groupName < $1.groupName }
 //    }
     var filteredGroups: [Group] {
-        GroupsVM.groups
+        groupsVM.groups
             .filter {
                 searchText.isEmpty ||
                 $0.groupName.localizedCaseInsensitiveContains(searchText)
