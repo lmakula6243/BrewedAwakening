@@ -10,8 +10,8 @@ struct IDScannerChoicePage: View {
     @State var showScanSheet = false
     @State var typedID = ""
     @State var showIDSheet = false
-    @ObservedObject var myViewModel: StudentsViewModel = StudentsViewModel()
-    @ObservedObject var groupsVM: GroupsViewModel = GroupsViewModel()
+    @ObservedObject var myViewModel: StudentsViewModel
+    @ObservedObject var groupsVM: GroupsViewModel
     @State var nameOfGroup: String = ""
     @Binding var group: Group
     @State var showCheckmark = false

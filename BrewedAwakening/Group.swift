@@ -10,4 +10,5 @@ struct Group: Identifiable {
     let id: String
     var groupName: String
     var students: [Student] = []
+    var time: String
 }

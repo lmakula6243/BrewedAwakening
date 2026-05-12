@@ -25,6 +25,7 @@ struct MyApp: App {
     @State var showLockedSheet = false
     @State var password: String = ""
     @StateObject var groupsVM = GroupsViewModel()
+    @StateObject var myViewModel = StudentsViewModel()
     @State var buttonName = true
     
     
@@ -44,7 +45,11 @@ struct MyApp: App {
                         if selectedPage == "home" {
 
                             if let firstGroup = groupsVM.groups.first {
-                                IDScannerChoicePage(group: .constant(firstGroup))
+                                IDScannerChoicePage(
+                                    myViewModel: myViewModel,
+                                    groupsVM: groupsVM,
+                                    group: $groupsVM.groups[0]
+                                )
                             } else {
                                 Text("No group available")
                                     .font(.title)
@@ -54,6 +59,8 @@ struct MyApp: App {
                         } else if selectedPage == "groups" {
 
                             GroupView(
+                                myViewModel: myViewModel,
+                                groupsVM: groupsVM,
                                 groups: $groupsVM.groups,
                                 selectedPage: selectedPage
                             )

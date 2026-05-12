@@ -10,7 +10,8 @@ import FirebaseDatabase
 
 
 struct GroupView: View {
-    @ObservedObject var groupsVM: GroupsViewModel = GroupsViewModel()
+    @ObservedObject var myViewModel: StudentsViewModel
+    @ObservedObject var groupsVM: GroupsViewModel
     @State var showAddGroupSheet = false
     @State var enteredNewGroup: String = ""
     @Binding var groups: [Group]
@@ -43,7 +44,13 @@ struct GroupView: View {
                     
                     ForEach($groupsVM.groups) { $group in
                         
-                        NavigationLink( destination: IDScannerChoicePage(group: $group)){
+                        NavigationLink(
+                            destination: IDScannerChoicePage(
+                                myViewModel: myViewModel,
+                                groupsVM: groupsVM,
+                                group: $group
+                            )
+                        ){
                             Text(group.groupName)
                                 .font(Font.custom("Hiragino Kaku Gothic StdN", size: 15))
                                 .foregroundStyle(.black)
@@ -77,11 +84,20 @@ struct GroupView: View {
                         TextField("Enter Group Name Here", text: $enteredNewGroup)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                         Button(action: {
-                            showAddGroupSheet.toggle()
-                            groupsVM.createGroup(groupName: enteredNewGroup) { newGroup in
+                            
+                            let formatter = DateFormatter()
+                            formatter.timeStyle = .short
+                            
+                            groupsVM.createGroup(
+                                groupName: enteredNewGroup,
+                                time: formatter.string(from: Date())
+                            ) { newGroup in
                                 groups.append(newGroup)
                             }
+                            
+                            showAddGroupSheet.toggle()
                             enteredNewGroup = ""
+                            
                         }, label: {
                             ZStack{
                                 RoundedRectangle(cornerRadius: 5)
