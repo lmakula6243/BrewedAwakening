@@ -27,45 +27,56 @@ struct IDScannerChoicePage: View {
                     .padding()
                 VStack {
                     List {
-                        ForEach(group.students) { student in
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text("\(student.firstname) \(student.lastname)")
-                                        .font(.headline)
 
-                                    Text("Scanner ID: \(student.scannerId)")
-                                    Text("Student ID: \(student.idnum)")
-                                }
-
-                                Spacer()
-
-                                if let start = clockInTimes[student.idnum] {
-                                    VStack(alignment: .trailing) {
-
-                                        Text("Signed In:")
-                                            .font(.caption)
-
-                                        Text(formattedClockInTime(start))
-                                            .font(.subheadline)
-
-                                        Text(timeWorked(since: start))
+                        if let updatedGroup = groupsVM.groups.first(where: { $0.id == group.id }) {
+                            
+                            ForEach(updatedGroup.students) { student in
+                                
+                                HStack {
+                                    
+                                    VStack(alignment: .leading) {
+                                        
+                                        Text("\(student.firstname) \(student.lastname)")
                                             .font(.headline)
-                                            .monospacedDigit()
+                                        
+                                        Text("Scanner ID: \(student.scannerId)")
+                                        Text("Student ID: \(student.idnum)")
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    if let start = clockInTimes[student.idnum] {
+                                        
+                                        VStack(alignment: .trailing) {
+                                            
+                                            Text("Signed In:")
+                                                .font(.caption)
+                                            
+                                            Text(formattedClockInTime(start))
+                                                .font(.subheadline)
+                                            
+                                            Text(timeWorked(since: start))
+                                                .font(.headline)
+                                                .monospacedDigit()
+                                        }
                                     }
                                 }
+                                .listRowBackground(Color(.orange))
                             }
-                            .listRowBackground(Color(.orange))
-                        }
-                        .onDelete { indexSet in
-                            for index in indexSet {
-                                let student = group.students[index]
+                            .onDelete { indexSet in
                                 
-                                groupsVM.removeStudentFromGroup(
-                                    groupId: group.id,
-                                    student: student
-                                )
+                                for index in indexSet {
+                                    
+                                    let student = updatedGroup.students[index]
+                                    
+                                    groupsVM.removeStudentFromGroup(
+                                        groupId: updatedGroup.id,
+                                        student: student
+                                    )
+                                }
                             }
                         }
+                    
                     }
                 }
                 .onReceive(myViewModel.$students) { newStudents in

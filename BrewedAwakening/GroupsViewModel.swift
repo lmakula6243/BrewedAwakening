@@ -43,7 +43,7 @@ class GroupsViewModel: ObservableObject {
                         )
                         
                         students.append(student)
-                        print("STUDENT:", student.firstname)
+                       
                     }
                 }
                 
@@ -110,5 +110,13 @@ class GroupsViewModel: ObservableObject {
             .child("members")
             .child(student.id)
             .removeValue()
+        
+        if let groupIndex = groups.firstIndex(where: { $0.id == groupId }) {
+            
+            groups[groupIndex].students.removeAll {
+                $0.id == student.id
+                
+            }
+        }
     }
 }
