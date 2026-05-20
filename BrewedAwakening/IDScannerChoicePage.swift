@@ -225,6 +225,11 @@ struct IDScannerChoicePage: View {
         formatter.timeStyle = .short
         return formatter.string(from: date)
     }
+    func formattedClockOutTime(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        return formatter.string(from: date)
+    }
     func checkMarkAnimation() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             withAnimation{
