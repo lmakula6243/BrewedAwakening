@@ -38,7 +38,7 @@ struct GroupView: View {
                     ForEach(groupsVM.groups) { group in
                        
                         Button {
-                            print("Tapped:", group.groupName)
+                           
                             selectedGroup = group
                             selectedPage = "home"
                         } label: {
@@ -47,17 +47,17 @@ struct GroupView: View {
                                 .foregroundStyle(.black)
                         }
                     }
+                    .onDelete { indexSet in
+
+                        for index in indexSet {
+
+                            let group = groupsVM.groups[index]
+
+                            groupsVM.deleteGroup(group: group)
+                        }
+                    }
                 }
-                        //                        Button {
-                        //                            selectedPage = "home"
-                        //
-                        //                        } label: {
-                        //                            Text(group.groupName)
-                        //                                .font(Font.custom("Hiragino Kaku Gothic StdN", size: 15))
-                        //                                .foregroundStyle(.black)
-                        //                        }
-                        //                    }
-                        //                    .listRowBackground(Color(.systemGray3))
+                
                     }
                     
                     

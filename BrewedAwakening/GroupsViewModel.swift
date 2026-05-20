@@ -100,6 +100,21 @@ class GroupsViewModel: ObservableObject {
                 "scannerId": student.scannerId
             ])
     }
+    func deleteGroup(group: Group) {
+
+        let ref = Database.database().reference()
+
+        
+        ref.child("groups")
+            .child(group.id)
+            .removeValue()
+
+        
+        groups.removeAll {
+            $0.id == group.id
+        }
+    }
+    
     
     func removeStudentFromGroup(groupId: String, student: Student) {
         
