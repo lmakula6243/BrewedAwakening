@@ -15,8 +15,10 @@ struct workerStatsPage: View {
     @State var searchText = ""
     @State var selectedGroup: Group?
     @State var payPerHour : Int = 0
+    @State var enteredPay = ""
     @ObservedObject var myViewModel: StudentsViewModel
     @ObservedObject var groupsVM: GroupsViewModel
+   
 //    var filteredGroups: [Group] {
 //        groups
 //            .filter {
@@ -114,6 +116,8 @@ struct workerStatsPage: View {
                         Text("Pay calculation goes here")
                             .font(.largeTitle)
                             .navigationTitle("Calculate Pay")
+                        TextField("Type Hourly Pay Here", text: $enteredPay)
+                        
                         
                     } else if selectedMenu == "Groups"{
                         Text("Groups go here")
