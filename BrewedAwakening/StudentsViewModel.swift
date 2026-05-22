@@ -27,7 +27,8 @@ class StudentsViewModel: ObservableObject {
                         firstname: data["firstName"] as? String ?? "",
                         idnum: data["id"] as? Int ?? 0,
                         lastname: data["lastName"] as? String ?? "",
-                        scannerId: data["scannerId"] as? Int ?? 0
+                        scannerId: data["scannerId"] as? Int ?? 0,
+                        clockInTime: data["clockInTime"] as? Double ?? 0
                     )
                     
                     foundStudents.append(student)

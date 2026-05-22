@@ -16,18 +16,18 @@ struct IDScannerChoicePage: View {
     @Binding var group: Group
     @State var showCheckmark = false
     @State var confettiCounter = 0
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    @State var clockInTimes: [Int: Date] = [:]
-    @State var currentTime = Date()
+   
+   
     var body: some View {
         ZStack {
             VStack {
                 Text("\(group.groupName)'s group is signing in")
                     .font(.custom("Hiragino Kaku Gothic StdN", size: 35))
                     .padding()
+                
                 VStack {
                     List {
-
+                        
                         if let updatedGroup = groupsVM.groups.first(where: { $0.id == group.id }) {
                             
                             ForEach(updatedGroup.students) { student in
@@ -45,23 +45,24 @@ struct IDScannerChoicePage: View {
                                     
                                     Spacer()
                                     
-                                    if let start = clockInTimes[student.idnum] {
-                                        
+                                    
+                                    if student.clockInTime > 0 {
+
+                                        let start = Date(
+                                            timeIntervalSince1970: student.clockInTime
+                                        )
+
                                         VStack(alignment: .trailing) {
-                                            
+
                                             Text("Signed In:")
                                                 .font(.caption)
-                                            
+
                                             Text(formattedClockInTime(start))
                                                 .font(.subheadline)
-                                            
-                                            Text(timeWorked(since: start))
-                                                .font(.headline)
-                                                .monospacedDigit()
                                         }
                                     }
                                 }
-                                .listRowBackground(Color(.orange))
+                                .listRowBackground(Color.orange)
                             }
                             .onDelete { indexSet in
                                 
@@ -76,99 +77,85 @@ struct IDScannerChoicePage: View {
                                 }
                             }
                         }
+                    }
                     
-                    }
-                }
-                .onReceive(myViewModel.$students) { newStudents in
-                    guard let foundStudent = newStudents.last else { return }
-
-                    if !group.students.contains(where: { $0.idnum == foundStudent.idnum }) {
-                        group.students.append(foundStudent)
-                    }
-
-                    clockInTimes[foundStudent.idnum] = Date()
-
-                    groupsVM.addStudentToGroup(
-                        groupId: group.id,
-                        student: foundStudent
-                    )
-                }
-                
-                HStack {
-                    Button(action: {
-                        showScanSheet.toggle()
-                        
-                    }, label: {
-                        VStack {
-                            Text("Scan Button:" )
-                                .foregroundStyle(.black)
-                                .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
-                                .padding()
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 90)
-                                    .frame(width: 350, height: 300)
-                                    .foregroundStyle(Color.orange)
-                                Image("Scanner")
-                                    .resizable()
-                                    .frame(width: 280, height: 280)
-                                
+                    HStack {
+                        Button(action: {
+                            showScanSheet.toggle()
+                            
+                        }, label: {
+                            VStack {
+                                Text("Scan Button:" )
+                                    .foregroundStyle(.black)
+                                    .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
+                                    .padding()
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 90)
+                                        .frame(width: 350, height: 300)
+                                        .foregroundStyle(Color.orange)
+                                    Image("Scanner")
+                                        .resizable()
+                                        .frame(width: 280, height: 280)
+                                    
+                                }
                             }
+                        })
+                        .sheet(isPresented: $showScanSheet){
+                            Text("Scan Student ID")
+                                .font(.largeTitle)
+                            
+                            TextField("Waiting for scan…", text: $scannedCode)
+                                .textFieldStyle(.roundedBorder)
+                                .frame(width: 400, height: 50)
+                            
+                                .onSubmit {
+                                    processScan()
+                                    showScanSheet = false
+                                    checkMarkAnimation()
+                                }
+                            
+                            Image("Scanner")
+                            
+                            
                         }
-                    })
-                    .sheet(isPresented: $showScanSheet){
-                        Text("Scan Student ID")
-                            .font(.largeTitle)
                         
-                        TextField("Waiting for scan…", text: $scannedCode)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(width: 400, height: 50)
-                        
-                            .onSubmit {
-                                processScan()
-                                showScanSheet = false
-                                checkMarkAnimation()
+                        Button(action: {
+                            showIDSheet.toggle()
+                        }, label: {
+                            VStack {
+                                Text("ID Button:")
+                                    .foregroundStyle(Color.black)
+                                    .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
+                                    .padding()
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 90)
+                                        .frame(width: 350, height: 300)
+                                        .foregroundStyle(Color.brown)
+                                    Image("Keypad")
+                                        .resizable()
+                                        .frame(width: 300, height: 300)
+                                }
                             }
-                        
-                        Image("Scanner")
-                        
-                        
-                    }
-                    Button(action: {
-                        showIDSheet.toggle()
-                    }, label: {
-                        VStack {
-                            Text("ID Button:")
-                                .foregroundStyle(Color.black)
-                                .font(.custom("Hiragino Kaku Gothic StdN", size: 20))
-                                .padding()
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 90)
-                                    .frame(width: 350, height: 300)
-                                    .foregroundStyle(Color.brown)
-                                Image("Keypad")
-                                    .resizable()
-                                    .frame(width: 300, height: 300)
-                            }
+                        })
+                        .sheet(isPresented: $showIDSheet){
+                            
+                            Text("Type Student ID")
+                                .font(.largeTitle)
+                            
+                            TextField("Type Student ID here…", text: $typedID)
+                                .textFieldStyle(.roundedBorder)
+                                .frame(width: 400, height: 50)
+                                .onSubmit {
+                                    processID(typedID)
+                                    typedID = ""
+                                    showIDSheet = false
+                                    checkMarkAnimation()
+                                }
+                            Image("Keypad")
                         }
-                    })
-                    .sheet(isPresented: $showIDSheet){
-                        
-                        Text("Type Student ID")
-                            .font(.largeTitle)
-                        
-                        TextField("Type Student ID here…", text: $typedID)
-                            .textFieldStyle(.roundedBorder)
-                            .frame(width: 400, height: 50)
-                            .onSubmit {
-                                processID(typedID)
-                                typedID = ""
-                                showIDSheet = false
-                                checkMarkAnimation()
-                            }
-                        Image("Keypad")
                     }
+                    
                 }
-                
             }
             if showCheckmark == true {
                 
@@ -188,8 +175,18 @@ struct IDScannerChoicePage: View {
             radius: 400
             
         )
-        .onReceive(timer) { _ in
-            currentTime = Date()
+        .onReceive(myViewModel.$students) { newStudents in
+
+            guard let foundStudent = newStudents.last else { return }
+
+            guard !group.students.contains(where: {
+                $0.idnum == foundStudent.idnum
+            }) else { return }
+
+            groupsVM.addStudentToGroup(
+                groupId: group.id,
+                student: foundStudent
+            )
         }
     }
     
@@ -211,15 +208,7 @@ struct IDScannerChoicePage: View {
             }
             myViewModel.getData(byField: "id", value: intNumCode)
         }
-    func timeWorked(since start: Date) -> String {
-        let totalSeconds = Int(Date().timeIntervalSince(start))
-        
-        let hours = totalSeconds / 3600
-        let minutes = (totalSeconds % 3600) / 60
-        let seconds = totalSeconds % 60
-        
-        return String(format: "%02d:%02d:%02d", hours, minutes, seconds)
-    }
+
     func formattedClockInTime(_ date: Date) -> String {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
