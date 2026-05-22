@@ -19,14 +19,7 @@ struct workerStatsPage: View {
     @ObservedObject var myViewModel: StudentsViewModel
     @ObservedObject var groupsVM: GroupsViewModel
    
-//    var filteredGroups: [Group] {
-//        groups
-//            .filter {
-//                searchText.isEmpty ||
-//                $0.groupName.localizedCaseInsensitiveContains(searchText)
-//            }
-//            .sorted { $0.groupName < $1.groupName }
-//    }
+
     var filteredGroups: [Group] {
         groupsVM.groups
             .filter {
@@ -71,28 +64,7 @@ struct workerStatsPage: View {
                         .navigationTitle(group.groupName)
                         
                     } else {
-                        
-//                        List{
-//                            ForEach($GroupsVM.groups) { $group in
-//                                
-//                                NavigationLink( destination: GroupStudentsView(group: $group)){
-//                                    Text(group.groupName)
-//                                        .font(Font.custom("Hiragino Kaku Gothic StdN", size: 15))
-//                                        .foregroundStyle(.black)
-//                                    
-//                                    //                            List(filteredGroups) { group in
-//                                    //                                Button {
-//                                    //                                    selectedGroup = group
-//                                    //                                } label: {
-//                                    //                                    Text(group.groupName)
-//                                    //                                }
-//                                    //                            }
-//                                        .searchable(text: $searchText, prompt: "Search groups")
-//                                        .navigationTitle("Groups")
-//                                    
-//                                }
-//                            }
-//                        }
+            
                         List {
                             ForEach(filteredGroups) { group in
                                 

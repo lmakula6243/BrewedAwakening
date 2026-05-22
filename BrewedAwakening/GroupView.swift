@@ -18,7 +18,7 @@ struct GroupView: View {
     @Binding var selectedPage: String
     @State var showLockedSheet = false
     @Binding var selectedGroup: Group?
-    // @Binding var group: Group
+    
     var body: some View {
         VStack {
             ZStack{

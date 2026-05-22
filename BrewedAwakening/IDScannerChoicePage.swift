@@ -16,6 +16,9 @@ struct IDScannerChoicePage: View {
     @Binding var group: Group
     @State var showCheckmark = false
     @State var confettiCounter = 0
+    @State var clockOutTimes: [Int: Date] = [:]
+    @State var showSignOutAlert: Bool = false
+    @State var studentPendingSignOut: Student?
    
    
     var body: some View {
@@ -41,8 +44,15 @@ struct IDScannerChoicePage: View {
                                         
                                         Text("Scanner ID: \(student.scannerId)")
                                         Text("Student ID: \(student.idnum)")
+                                        
+                                        Button(action: {
+                                            studentPendingSignOut = student
+                                            showSignOutAlert = true
+                                        }) {
+                                            
+                                        }
                                     }
-                                    
+                                
                                     Spacer()
                                     
                                     
@@ -156,6 +166,36 @@ struct IDScannerChoicePage: View {
                     }
                     
                 }
+                .alert(isPresented: $showSignOutAlert) {
+
+                    let name = "\(studentPendingSignOut?.firstname ?? "") \(studentPendingSignOut?.lastname ?? "")"
+
+                    return Alert(
+                        title: Text("Sign Out Confirmation"),
+                        message: Text("\(name) is signed out at the current time. Are you sure you want to sign out?"),
+                        primaryButton: .destructive(Text("Sign Out")) {
+
+                            guard let student = studentPendingSignOut else { return }
+
+                            let now = Date()
+
+                            //TEMP
+                            clockOutTimes[student.idnum] = now
+                            
+                            groupsVM.removeStudentFromGroup(
+                                    groupId: group.id,
+                                    student: student
+                                )
+
+                            print("\(student.firstname) signed out at \(now)")
+
+                            studentPendingSignOut = nil
+                        },
+                        secondaryButton: .cancel {
+                            studentPendingSignOut = nil
+                        }
+                    )
+                }
             }
             if showCheckmark == true {
                 
@@ -179,10 +219,15 @@ struct IDScannerChoicePage: View {
 
             guard let foundStudent = newStudents.last else { return }
 
-            guard !group.students.contains(where: {
-                $0.idnum == foundStudent.idnum
-            }) else { return }
+            let currentStudents =
+                groupsVM.groups.first(where: { $0.id == group.id })?.students ?? []
 
+            let exists = currentStudents.contains {
+                $0.idnum == foundStudent.idnum
+            }
+
+            guard !exists else { return }
+//checks if a student already exists
             groupsVM.addStudentToGroup(
                 groupId: group.id,
                 student: foundStudent

@@ -14,4 +14,5 @@ struct Student: Identifiable{
     var lastname: String
     var scannerId: Int
     var clockInTime: Double
+    // clockInTime is a double because it makes it easier for firebase to store, its not able to read swift data
 }
