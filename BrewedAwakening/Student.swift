@@ -13,5 +13,5 @@ struct Student: Identifiable{
     var idnum: Int
     var lastname: String
     var scannerId: Int
-    var clockInTime: Date?
+    var clockInTime: Double
 }

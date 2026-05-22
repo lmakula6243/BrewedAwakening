@@ -39,9 +39,9 @@ class GroupsViewModel: ObservableObject {
                             firstname: data["firstName"] as? String ?? "",
                             idnum: data["id"] as? Int ?? 0,
                             lastname: data["lastName"] as? String ?? "",
-                            scannerId: data["scannerId"] as? Int ?? 0
+                            scannerId: data["scannerId"] as? Int ?? 0,
+                            clockInTime: data["clockInTime"] as? Double ?? 0
                         )
-                        
                         students.append(student)
                        
                     }
@@ -85,37 +85,57 @@ class GroupsViewModel: ObservableObject {
         completion(group)
     }
     
-    func addStudentToGroup(groupId: String, student: Student) {
-        
+    func addStudentToGroup(
+        groupId: String,
+        student: Student
+    ) {
+
         let ref = Database.database().reference()
-        
+
         ref.child("groups")
             .child(groupId)
             .child("members")
-            .child(student.id)
+            .child("\(student.idnum)")
             .setValue([
+
                 "firstName": student.firstname,
                 "lastName": student.lastname,
                 "id": student.idnum,
-                "scannerId": student.scannerId
+                "scannerId": student.scannerId,
+                "clockInTime": Date().timeIntervalSince1970
             ])
     }
     
-    func removeStudentFromGroup(groupId: String, student: Student) {
-        
+    func deleteGroup(group: Group) {
+
         let ref = Database.database().reference()
+
         
+        ref.child("groups")
+            .child(group.id)
+            .removeValue()
+
+        
+        groups.removeAll {
+            $0.id == group.id
+        }
+    }
+    
+    
+    func removeStudentFromGroup(groupId: String, student: Student) {
+
+        let ref = Database.database().reference()
+
         ref.child("groups")
             .child(groupId)
             .child("members")
-            .child(student.id)
+            .child("\(student.idnum)")
             .removeValue()
-        
+
         if let groupIndex = groups.firstIndex(where: { $0.id == groupId }) {
-            
+
             groups[groupIndex].students.removeAll {
-                $0.id == student.id
-                
+                $0.idnum == student.idnum
             }
         }
     }
