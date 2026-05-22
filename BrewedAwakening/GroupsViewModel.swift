@@ -40,7 +40,9 @@ class GroupsViewModel: ObservableObject {
                             idnum: data["id"] as? Int ?? 0,
                             lastname: data["lastName"] as? String ?? "",
                             scannerId: data["scannerId"] as? Int ?? 0,
-                            clockInTime: data["clockInTime"] as? Double ?? 0
+                            clockInTime: data["clockInTime"] as? Double ?? 0,
+                            clockOutTime: data["clockInTime"] as? Double ?? 0
+                        
                         )
                         students.append(student)
                        
