@@ -14,4 +14,10 @@ struct Student: Identifiable{
     var lastname: String
     var scannerId: Int
     var clockInTime: Double
+    var clockOutTime: Double
+    
+    var hoursWorked: Double {
+            let secondsWorked = clockOutTime - clockInTime
+            return secondsWorked / 3600
+        }
 }
