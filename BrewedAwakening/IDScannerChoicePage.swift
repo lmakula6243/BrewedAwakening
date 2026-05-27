@@ -19,7 +19,7 @@ struct IDScannerChoicePage: View {
     @State var clockOutTimes: [Int: Date] = [:]
     @State var showSignOutAlert: Bool = false
     @State var studentPendingSignOut: Student?
-   
+    @State var lastProcessedStudentID: Int?
    
     var body: some View {
         ZStack {
@@ -172,7 +172,7 @@ struct IDScannerChoicePage: View {
 
                     return Alert(
                         title: Text("Sign Out Confirmation"),
-                        message: Text("\(name) is signed out at the current time. Are you sure you want to sign out?"),
+                        message: Text("\(name) is signed out at the \(formattedClockOutTime(studentPendingSignOut != nil ? clockOutTimes[studentPendingSignOut!.idnum] ?? Date() : Date())). Are you sure you want to sign out?"),
                         primaryButton: .destructive(Text("Sign Out")) {
 
                             guard let student = studentPendingSignOut else { return }
@@ -219,6 +219,9 @@ struct IDScannerChoicePage: View {
 
             guard let foundStudent = newStudents.last else { return }
 
+            // Prevent same student from processing again
+            guard lastProcessedStudentID != foundStudent.idnum else { return }
+
             let currentStudents =
                 groupsVM.groups.first(where: { $0.id == group.id })?.students ?? []
 
@@ -227,12 +230,19 @@ struct IDScannerChoicePage: View {
             }
 
             guard !exists else { return }
-//checks if a student already exists
+
             groupsVM.addStudentToGroup(
                 groupId: group.id,
                 student: foundStudent
             )
+
+            
+            lastProcessedStudentID = foundStudent.idnum
+
+           
+            myViewModel.students.removeAll()
         }
+        
     }
     
     
